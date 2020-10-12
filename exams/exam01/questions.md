@@ -42,7 +42,7 @@ Server-side JS runs on a web server. When an end-user requests a web page dynami
 4. Brute Force Prototype Assignment :In this we explicitly define a prototype for an object (telling it that your prototype is now this other object) using Object.setPrototypeOf() method.
 
 ## Q: Give a short code demonstration of 1 way to create JS inheritance to __inherit__ a method named "purr".
-const Cat = function(name) {
+`const Cat = function(name) {
 this.name = name;
 };
 Cat.prototype.purr = function() {
@@ -50,21 +50,21 @@ console.log(`${this.name} says 'Purr'`);
 };
 const maru = new Cat('Maru');
 maru.purr();
-
+`
 ## Q: Give a short code demonstration of a different way to create JS inheritance to __inherit__ a method named "hiss".
-const snake = {
+`const snake = {
 hiss: function() {
 console.log(`${this.name} says 'hiss'`);
 }
 };
 const cobra = Object.create(snake);
 cobra.name = 'cobra';
-cobra.hiss();
+cobra.hiss();`
 
 ## Q: Explain what a callback is, and give an example.
 A callback is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
 
-function square(value) {
+`function square(value) {
   alert(value * value);
 }
 
@@ -73,7 +73,7 @@ function takeInput(callback) {
   callback(value);
 }
 
-takeInput(square);
+takeInput(square);`
 
 In above example square is a callback. 
 
