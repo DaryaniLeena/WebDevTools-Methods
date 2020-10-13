@@ -19,7 +19,7 @@ Relative Paths
 index.html
 /images/image.png
 
-The web server document root is where you put all the files your website needs to function i.e. publicly accessible base folder of a website.
+The web server document root is where you put all the files your website needs to function i.e. publicly accessible base folder of a website.The way absolute and relative path relate to document root is the absolute path starts from the document root whereas the relative path starts from some given working directory, avoiding the need to provide the full absolute path.
 
 ## Q: What is the difference between server-side and client-side JS?
 Server-side JS runs on a web server. When an end-user requests a web page dynamically, the webserver runs the server-side javascript to generate the dynamic HTML pages. The generated HTML is then sent back to the client browser whereas Client-side JS runs on a web browser of the user's machine. It works on the front end and visible among the users. As it runs on the user's machine, it reduces the server load. It is generally used to manipulate HTML and CSS tags in the front end.

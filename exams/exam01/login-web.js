@@ -19,13 +19,13 @@ const loginWeb={
   loginUser: function(){
     return `<form action="/login" method="POST">
       <h2>Register</h2>
-    		<p>
-    			<label for="userName" class="floatLabel">Username</label>
+    		<div class="loginform">
+    			<label for="userName" class="user-label">Username</label>
     			<input id="userName" name="userName" type="text" required>
-    		</p>
-    		<p>
-    			<button type="submit" value="Login" id="submit">Login</button>
-    		</p>
+    		</div>
+    		<div class="loginform">
+    			<button class="submit-button" type="submit" value="Login" id="submit">Login</button>
+    		</div>
     	</form>`;
   }
 };

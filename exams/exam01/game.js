@@ -7,7 +7,7 @@ function gamePage(words, token) {
 </head>
 <body>
   <div class="main-container">
-    <div class="wordListLeena">
+    <div class="wordlist-container">
       <span class="wordlist-text">
         <span> Word List: </span>
       </span>
@@ -22,7 +22,7 @@ function gamePage(words, token) {
          Guessed Words
         </div>
         <div class="content-div">
-          ${getGuessedWordList(token)}
+          ${getInputWordList(token)}
           </ul>
         </div>
       </div>
@@ -31,7 +31,7 @@ function gamePage(words, token) {
           Result
         </div>
         <div class="content-div">
-          ${getWordResultList(token)}
+          ${getInputResultList(token)}
           </ul>
         </div>
       </div>
@@ -41,7 +41,7 @@ function gamePage(words, token) {
          <form action="/guessWord" method="POST" class="form-component">
               <input type="text" name="inputword" placeholder="Enter the word" class="inputTextBox" autocomplete="off" required>
               <input type="hidden" name="token" value="${token}" />
-              <button id="guessButton" type="submit">Guess</button>
+              <button id="guess-button" type="submit">Guess</button>
           </form>
       </div>
       <div class="counter-container">
@@ -49,7 +49,7 @@ function gamePage(words, token) {
       </div>
       <div class="logout">
           <form action="/logout" method="GET">
-            <button id="logoutButton" type="submit">Logout</button>
+            <button id="logout-button" type="submit">Logout</button>
           </form>
       </div>
     </div>
@@ -65,23 +65,22 @@ const userSessions = {};
 function startNewGame(words,sessionId) {
   let token=sessionId;
   let newGame = {
-    "answerString" : words.getRandomWord(words),
+    "secretString" : words.getRandomSecretWord(words),
     "counter" : 0,
     "guessedStrings" : []
   }
   currentGames.push({token:token,playgame:newGame});
-  return token;
 }
 
 function getWordList(words) {
-  return `<ul class="WordListscroll">` +
+  return `<ul class="wordlist-scroll">` +
   Object.values(words.wordList).map( currentWord => `
     <li class="word-unlist">${currentWord}</li>    
     `).join('');
 }
 
-function getGuessedWordList(token) {
-  currentGameObject = getGame(token);
+function getInputWordList(token) {
+  const currentGameObject = getCurrentGame(token);
   currentGuessedStrings = currentGameObject.guessedStrings;
   let ul = `<ul class="scroll">`;
   currentGuessedStrings.forEach((element)=> {
@@ -90,8 +89,8 @@ function getGuessedWordList(token) {
   return ul;
 }
 
-function getWordResultList(token) {
-  currentGameObject = getGame(token);
+function getInputResultList(token) {
+  const currentGameObject = getCurrentGame(token);
   currentGuessedStrings = currentGameObject.guessedStrings;
   let ul = `<ul class="scroll">`;
   currentGuessedStrings.forEach((element)=> {
@@ -101,14 +100,14 @@ function getWordResultList(token) {
   }
 
 function getCounter(token){
-  currentGameObject = getGame(token);
+  const currentGameObject = getCurrentGame(token);
   currentCounter = currentGameObject.counter;
   let div = ``;
   div += `${currentCounter}`
   return div;
 }
 
-function getGame(token) {
+function getCurrentGame(token) {
   resultUserGuessArray = currentGames.filter(item => item.token==token);
   return resultUserGuessArray[0].playgame;
 }
@@ -120,10 +119,10 @@ const game = {
   resultUserGuessArray,
   startNewGame,
   getWordList,
-  getGuessedWordList,
-  getWordResultList,
+  getInputWordList,
+  getInputResultList,
   getCounter,
-  getGame
+  getCurrentGame
 };
 
 module.exports = game;
