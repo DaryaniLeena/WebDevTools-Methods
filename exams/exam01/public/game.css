@@ -2,10 +2,10 @@ body {
 	background: #384047;
 }
 
-li:before {
+/* li:before {
 	content: "";
 	margin-left: -5rem;
-}
+} */
 
 .main-container {
 	width: 640px;
@@ -16,21 +16,13 @@ li:before {
 	width: 100%;
 	display: flex;
 	justify-content: center;
-	
 	font-size: large;
 	margin: 5px;
 	color: aliceblue;
 }
 
-
-
 .counter-span {
 	text-align: right;
-}
-
-@keyframes counterAnimation {
-	0% {font-size:200%; opacity:1;}
-	100% {font-size:100%;opacity:1;}
 }
 
 .flex-container {
@@ -54,9 +46,6 @@ li:before {
 
 .header-div {
 	font-size: 20px;
-	/* line-height: 30px;
-	border-style: solid;
-	border-color: cadetblue; */
 }
 
 .content-div {
@@ -65,7 +54,7 @@ li:before {
 	margin: 0 auto;
 }
 
-.flex-container-forms {
+.container-forms {
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
@@ -93,7 +82,7 @@ li:before {
 
 }
 
-#playButton {
+#logoutButton {
 	margin: auto;
 	width: 320px;
 	height: 40px;
@@ -141,7 +130,7 @@ ul{
 	margin:5px;
 }
 
-.play-again{
+.logout{
 	margin:5px;
 }
 
