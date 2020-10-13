@@ -36,7 +36,7 @@ function gamePage(words, token) {
         </div>
       </div>
     </div>    
-    <div class="flex-container-forms"> 
+    <div class="container-forms"> 
       <div class="inputWord">
          <form action="/guessWord" method="POST" class="form-component">
               <input type="text" name="inputword" placeholder="Enter the word" class="inputTextBox" autocomplete="off" required>
@@ -47,14 +47,9 @@ function gamePage(words, token) {
       <div class="counter-container">
         <span class="counter-span">Number of Attempts : ${getCounter(token)}</span>
       </div>
-      <div class="play-again">
-          <form action="/playAgain" method="GET">
-            <button id="playButton" type="submit">Play New Game</button>
-          </form>
-      </div>
-      <div class="play-again">
+      <div class="logout">
           <form action="/logout" method="GET">
-            <button id="playButton" type="submit">Logout</button>
+            <button id="logoutButton" type="submit">Logout</button>
           </form>
       </div>
     </div>
@@ -68,14 +63,13 @@ let resultUserGuessArray=[];
 const userSessions = {};
 
 function startNewGame(words,sessionId) {
-  let session=sessionId;
-  let token=Math.random().toString(36).substring(9);
+  let token=sessionId;
   let newGame = {
     "answerString" : words.getRandomWord(words),
     "counter" : 0,
     "guessedStrings" : []
   }
-  currentGames.push({token:token,playgame:newGame,session:session});
+  currentGames.push({token:token,playgame:newGame});
   return token;
 }
 
@@ -116,7 +110,6 @@ function getCounter(token){
 
 function getGame(token) {
   resultUserGuessArray = currentGames.filter(item => item.token==token);
-  console.log(resultUserGuessArray);
   return resultUserGuessArray[0].playgame;
 }
 
