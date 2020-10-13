@@ -52,6 +52,11 @@ function gamePage(words, token) {
             <button id="playButton" type="submit">Play New Game</button>
           </form>
       </div>
+      <div class="play-again">
+          <form action="/logout" method="GET">
+            <button id="playButton" type="submit">Logout</button>
+          </form>
+      </div>
     </div>
   </div>
 </body>
@@ -60,16 +65,17 @@ function gamePage(words, token) {
 
 const currentGames = [];
 let resultUserGuessArray=[];
-const currentUser="";
+const userSessions = {};
 
-function startNewGame(words) {
-  let token = Math.random().toString(36).substring(7);
+function startNewGame(words,sessionId) {
+  let session=sessionId;
+  let token=Math.random().toString(36).substring(9);
   let newGame = {
     "answerString" : words.getRandomWord(words),
     "counter" : 0,
     "guessedStrings" : []
   }
-  currentGames.push({token:token,playgame:newGame});
+  currentGames.push({token:token,playgame:newGame,session:session});
   return token;
 }
 
@@ -115,7 +121,7 @@ function getGame(token) {
 }
 
 const game = {
-  currentUser,
+  userSessions,
   gamePage,
   currentGames,
   resultUserGuessArray,
