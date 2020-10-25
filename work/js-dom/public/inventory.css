@@ -1,20 +1,21 @@
+body{
+    background: lavenderblush;
+}
+
 #inventory-app {
     background:floralwhite;
     max-width:  600px;
     margin: auto;
-    
     text-align: center;
     min-height:630px;
 }
-body{
-    background: lavenderblush;
-}
-.header-div{
+
+.header-component{
     padding: 10px 0;
     background: beige;
 }
 
-.main-div{
+.main-component{
     min-height: inherit;
     padding: 20px 0;
 }
@@ -23,6 +24,7 @@ h3{
     color: chocolate;
     font-size: x-large;
 }
+
 li{
     list-style-type: none;
     justify-content: center;
@@ -30,15 +32,19 @@ li{
     border-bottom: 0.5px solid rgb(255, 61, 0);
     padding: 15px;
 }
+
 ul{
 padding-left: 0px;
 }
+
 .delete{
     float: left
 }
+
 .counter{
     float: right;
 }
+
 .count{
     padding: 0 15px;
     margin: 0 5px;
