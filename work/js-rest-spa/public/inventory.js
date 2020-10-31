@@ -2,23 +2,24 @@
 
 (function iife() {
     const errMsgs = {
-        'duplicate': 'That name already exists',
-        'network-error': 'There was a problem connecting to the network, try again',
+      'duplicate': 'That name already exists',
+      'network-error': 'There was a problem connecting to the network, try again',
     };
     const status = document.querySelector('.status');
-    const login=document.querySelector('#inventory-app .login-box')
-    const inputUserName=document.querySelector('#inventory-app .input-username');
-    const loginButton=document.querySelector('#inventory-app .login-button');
+    const login= document.querySelector('#inventory-app .login-box')
+    const inputUserName= document.querySelector('#inventory-app .input-username');
+    const loginButton= document.querySelector('#inventory-app .login-button');
     const inventory= document.querySelector('#inventory-app .inventory-box');
-    const item= document.querySelector('#inventory-app .item-class');
-    
+    const itemList= document.querySelector('#inventory-app .item-class');
+    const logoutButton= document.querySelector('#inventory-app #logout-button');
+
     disableLoginButtonIfNoInput();
-    // loginUser();
-    
-  
+    // addAbilityToAddItems();
+    // addAbilityToDeleteItems();
     // addAbilityToIncreaseItems();
     // addAbilityToDecreaseItems();
     // render(items);
+
     function renderPage(){
         const html =
             `
@@ -28,7 +29,8 @@
             <div class="main-component">
                 <div>
                     Add Item:
-                    <input class="input-item">
+                    <input class="input-item" placeholder="Enter item" >
+                    <input class="input-quantity" placeholder="Enter quantity">
                     <button class="add-button">Add</button>
                 </div>
                 <ul class="item"></ul>
@@ -37,27 +39,36 @@
        
         inventory.innerHTML=html;
     };
-    // const inputItem=document.querySelector('#inventory-app .input-item');
-    // const addButton=document.querySelector('#inventory-app .add-button');
-    // const item=document.querySelector('#inventory-app .item');
+  
     function updateStatus( message ) {
         status.innerText = message;
-      }
+    }
+    // getUserList: function(chat) {
+    //   return `<ul class="users">` +
+    //     Object.values(chat.users).filter( user => user.active).map( user => `
+    //     <li>
+    //       <div class="user">
+    //         <span class="username">${user.username}</span>
+    //       </div>
+    //     </li>
+    //   `).join('') +
+    //   `</ul>`;
+    // },
+    
     function render(items){
-        const html = items.map((items,index) =>{
+        const html = Object.keys(items).map((item,index) => {
             return `
             <li>
-                <button class="delete" data-index="${index}">X</button>
-                <span data-index="${index}">${items.name}</span>
+                <button class="delete" data-itemid="${item}">X</button>
+                <span data-itemid="${item}">${items[item].name}</span>
                 <span class="counter">
-                    <button class="minus" data-index="${index}" ${items.value === 0 ? "disabled" : ""}>-</button>
-                    <span class="count">${items.value}</span>
-                    <button class="plus" data-index="${index}">+</button>
+                    <span class="count" contenteditable="true">${items[item].value}</span>
+                    <button class="update" data-itemid="${item}" data-index="${index}">Update</button>
                 </span>
             </li>
             `;
         }).join('');
-        item.innerHTML=html;
+        itemList.innerHTML=html;
         document.querySelector('#inventory-app .add-button').disabled=!document.querySelector('#inventory-app .item').value;
     };
 
@@ -78,12 +89,17 @@
           .then( items => {
             inputUserName.value = '';
             login.style.display = 'none';
+            inventory.style.display = 'block';
+            itemList.style.display = 'block';
+            logoutButton.style.display = 'block';
             renderPage();
             render(items);
             disableButtonIfNoInput();
             addAbilityToAddItems();
             addAbilityToDeleteItems();
-            updateStatus('');
+            enablelogout();
+            addAbilityToUpdateCount();
+            updateStatus(`logged in user is ${name}`);
           })
           .catch( err => {
             updateStatus(errMsgs[err.error] || err.error);
@@ -109,66 +125,36 @@
     function addAbilityToAddItems(){
       document.querySelector('#inventory-app .add-button').addEventListener('click', () => {
       const name = document.querySelector('#inventory-app .input-item').value;
+      let quantity=document.querySelector('#inventory-app .input-quantity').value;
+      if(quantity === ""){
+        quantity=0;
+      }
       if(name) {
-        fetch(`/items/${name}`, {
+        fetch(`/items/${name}/${quantity}`, {
           method: 'POST',
         })
         .catch( () => Promise.reject( { error: 'network-error' }) )
         .then( convertError)
         .then( items => {
           document.querySelector('#inventory-app .input-item').value = '';
+          document.querySelector('#inventory-app .input-quantity').value = '';
           render(items);
           updateStatus('');
         })
         .catch( err => {
           updateStatus(errMsgs[err.error] || err.error);
+          document.querySelector('#inventory-app .input-item').value = '';
+          document.querySelector('#inventory-app .input-quantity').value = '';
         });
       }
     });
-        // addButton.addEventListener('click', (e)=>{
-        
-        //     const newItem={
-        //         name:inputItem.value,
-        //         value:0,
-        //     }
-        //     items.push(newItem);
-        //     inputItem.value='';
-        //     render(items);
-        // });
     }
 
-    // function addAbilityToIncreaseItems(){
-    //     item.addEventListener('click',(e)=>{
-    //         if(!e.target.classList.contains('plus')) {
-    //             return;
-    //         }
-    //         const index=e.target.dataset.index;
-    //         items[index].value=items[index].value+1;
-    //         render(items);
-    //     });
-    // }
-
-    // function addAbilityToDecreaseItems(){
-    //     item.addEventListener('click',(e)=>{
-    //         if(!e.target.classList.contains('minus')) {
-    //             return;
-    //         }
-    //         const index=e.target.dataset.index;
-    //         items[index].value=items[index].value-1;
-    //         render(items);
-    //     });
-    // }
-
     function addAbilityToDeleteItems(){
-        item.addEventListener('click',(e)=>{
-          if(e.target.classList.contains('delete') ) {
-            //     return;
-            // }
-            // const index=e.target.dataset.index;
-            // items.splice(index,1);
-            // render(items);
-            const name = e.target.dataset.name;
-            fetch(`/items/${name}`, {
+      itemList.addEventListener('click',(e)=>{
+        if(e.target.classList.contains('delete') ) {
+            const index = e.target.dataset.itemid;
+            fetch(`/items/${index}`, {
               method: 'DELETE',
             })
             .catch( () => Promise.reject( { error: 'network-error' }) )
@@ -185,22 +171,48 @@
       });
     }
 
-    // const status= document.querySelector('.status');
-    // fetch('/people/')
-    // .then(response=>{
-    //     if(response.ok){
-    //         return response.json();
+    function enablelogout(){
+      logoutButton.addEventListener('click', () => {
+        fetch(`/session`, {
+          method: 'POST',
+        })
+        .catch( () => Promise.reject( { error: 'network-error' }) )
+        .then(convertError)
+        .then( ()=> {
+        login.style.display = 'block';
+        inventory.style.display = 'none';
+        itemList.style.display = 'none';
+        logoutButton.style.display = 'none';
+        updateStatus('');
+        })
+        .catch( err => {
+          updateStatus(errMsgs[err.error] || err.error);
+        });
+      });
+    }
 
-    //     }
-    //     return response.json().then(err=> Promise.reject(err));
-    // })
-    // .then(people=>{
-    //     const names= people.map(
-    //         name=>`<li>${name}</li>`
+    function addAbilityToUpdateCount(){
+      itemList.addEventListener('click',(e)=>{
+        if(e.target.classList.contains('update') ) {
+          const index=e.target.dataset.index;
+          const itemid=e.target.dataset.itemid;
+          const quantity=(document.querySelectorAll('#inventory-app .count')[index]).innerText;
+            fetch(`/items/${itemid}/${quantity}`, {
+              method: 'PATCH',
+            })
+            .catch( () => Promise.reject( { error: 'network-error' }) )
+            .then( convertError )
+            .then( items => {
+              render(items);
+              updateStatus('');
+            })
+            .catch( err => {
+              updateStatus(errMsgs[err.error] || err.error);
+            });
+            
+        }
+      });
+    }
 
-    //     ).join('')
-    //     document.querySelector('.example').innerHTML=names;
-    // })
-    // .catch(err=> status.innerText=err.error);
 
 })();

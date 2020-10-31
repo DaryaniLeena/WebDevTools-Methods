@@ -7,20 +7,26 @@
 	<body>
 		<div id="inventory-app">
 			<div class="login-box">
-				<div>
-					<h1>Login :</h1>
+				<div class="header-component">
+					<h3>LOGIN</h3>
 				</div>
-				<div>
-                    <input type="text" class="input-username" name="username" placeholder="Enter username">				
-                    <button id="submit-button" class="login-button"type="submit" disabled>Login</button>
-                </div>
-                <div class="status"></div>
+				<div class="main-component">
+					<input type="text" class="input-username" name="username" placeholder="Enter username">				
+					<button id="submit-button" class="login-button" type="submit" disabled>Login</button>
+				</div>
             </div>
 			<div class="inventory-box"></div>
 			<div class="item-component">
 				<ul class="item-class"></ul>
 			</div>
+			<div class="logout-component">
+				<button id="logout-button" type="submit">logout</button>
+			</div>
+			<div class="status-component">
+				STATUS: <span class="status"></span>
+			</div>
 		</div>
+		
 		<script src="inventory.js"></script>
 	</body>
 	</html>
