@@ -7,7 +7,7 @@ body{
     max-width:  600px;
     margin: auto;
     text-align: center;
-    min-height:630px;
+    min-height:550px;
     position: relative;
 }
 
@@ -35,7 +35,10 @@ li{
 }
 
 ul{
-padding-left: 0px;
+    padding-left: 0px;
+    height: 427px;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .delete{
@@ -56,18 +59,9 @@ padding-left: 0px;
     float:right;
 }
 
-#logout-button{
-    display: none;
-    margin: auto;
-}
-
-.logout-component{
-    text-align: center;
-}
-
 .status-component {
     height: 50px;
-    POSITION: absolute;
+    position: absolute;
     bottom: 0;
     width: -webkit-fill-available;
     background-color: #f3e5f5;
@@ -75,7 +69,6 @@ padding-left: 0px;
 }
   
 .status {
-    
-    height: 32px; /* height + top/bottom paddding + top/bottom border must add up to footer height */
+    height: 32px; 
     padding: 8px;
 }
