@@ -7,8 +7,8 @@ app.use(express.static('./public'));
 const counter = () => {
   let count = 2; // so that itemid starts from 3, i & 2 is already given for first two items
   return () => {
-      count += 1;
-      return count;
+    count += 1;
+    return count;
   };
 };
 
