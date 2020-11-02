@@ -1,32 +1,27 @@
-<!DOCTYPE html>
-	<html>
-	<head>
-		<title>Login Page</title>
-		<link rel="stylesheet" type="text/css" href="inventory.css">
-	</head>
-	<body>
-		<div id="inventory-app">
-			<div class="login-box">
-				<div class="header-component">
-					<h3>LOGIN</h3>
-				</div>
-				<div class="main-component">
-					<input type="text" class="input-username" name="username" placeholder="Enter username">				
-					<button id="submit-button" class="login-button" type="submit" disabled>Login</button>
-				</div>
+<!doctype html>
+<html>
+    <head>
+        <title>Inventory  App</title>
+        <link rel="stylesheet" href="inventory.css"/>
+    </head>
+    <body>
+        <div id="inventory-app">
+            <div class="header-component">
+                <h3>INVENTORY</h3>
             </div>
-			<div class="inventory-box"></div>
-			<div class="item-component">
-				<ul class="item-class"></ul>
-			</div>
-			<div class="logout-component">
-				<button id="logout-button" type="submit">logout</button>
+            <div class="main-component">
+                <div>
+                    Add Item:
+					<input class="input-item" placeholder="Enter item" >
+                    <input class="input-quantity" placeholder="Enter quantity" type="number">
+                    <button class="add-button">Add</button>
+                </div>
+                <ul class="item"></ul>
 			</div>
 			<div class="status-component">
-				STATUS: <span class="status"></span>
+				 <span class="status"></span>
 			</div>
-		</div>
-		
-		<script src="inventory.js"></script>
-	</body>
-	</html>
+        </div>
+        <script src="inventory.js"></script>
+    </body>
+</html>
