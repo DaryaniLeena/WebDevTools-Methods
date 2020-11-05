@@ -1,0 +1,74 @@
+body{
+    background: lavenderblush;
+}
+
+#inventory-app {
+    background:floralwhite;
+    max-width:  600px;
+    margin: auto;
+    text-align: center;
+    min-height:550px;
+    position: relative;
+}
+
+.header-component{
+    padding: 10px 0;
+    background: beige;
+}
+
+.main-component{
+    min-height: inherit;
+    padding: 20px 0;
+}
+
+h3{
+    color: chocolate;
+    font-size: x-large;
+}
+
+li{
+    list-style-type: none;
+    justify-content: center;
+    font-size: 1.2em;
+    border-bottom: 0.5px solid rgb(255, 61, 0);
+    padding: 15px;
+}
+
+ul{
+    padding-left: 0px;
+    height: 427px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.delete{
+    float: left
+}
+
+.counter{
+    float: right;
+    width: 100px;
+}
+
+.count{
+    width:30px;
+    float: left;
+}
+
+.update{
+    float:right;
+}
+
+.status-component {
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    width: -webkit-fill-available;
+    background-color: #f3e5f5;
+    border: 1px solid #ab47bc;
+}
+  
+.status {
+    height: 32px; 
+    padding: 8px;
+}
