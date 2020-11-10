@@ -16,7 +16,7 @@ const sessions = {
   };
 
   const validateUsername = function (username) {
-    if(!username || username.includes("dog") || username.includes(" ")){
+    if(!username || (username.toLowerCase()).includes("dog") || username.includes(" ")){
         return false;
     }
     return true;

@@ -18,8 +18,16 @@ import {
   logoutButton,
   loginButton,
   resetAddItemField,
-  resetLoginItemField
+  resetLoginItemField,
+  status
 } from "./display";
+
+const errMsgs = {
+    'duplicate': 'Status: this task already exists',
+    'network-error': 'Status: There was a problem connecting to the network, try again',
+    'missing-task': 'Status: No such task Available',
+    'bad-login': 'Status: Bad-login: This value is not allowed'
+  };
 
 let todos = {};
 
@@ -77,10 +85,11 @@ function addLogin() {
         todos = userInfo.todos;
         resetLoginItemField();
         renderTodos(todos);
+        updateStatus("");
       })
       .catch((err) => {
-        // fixme - show errors
-        console.log(err);
+        updateStatus(errMsgs[err.error] || err.error);
+        
       });
   });
 }
@@ -106,9 +115,11 @@ function addAbilityToAddItems() {
         .then((ans) => {
             resetAddItemField();
             renderTodos(ans.todos);
+            updateStatus("");
         })
         .catch((err) => {
           updateStatus(errMsgs[err.error] || err.error);
+          resetAddItemField();
         });
     }
   });

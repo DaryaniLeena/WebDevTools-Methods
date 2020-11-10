@@ -32,3 +32,4 @@ export const addButton = document.querySelector("#todo-app .add-button");
 export const taskInput = document.querySelector("#todo-app .input-item");
 export const logoutButton = document.querySelector("#todo-app #logout-button");
 export const loginButton = document.querySelector("#todo-app .login button");
+export const status = document.querySelector('.status');

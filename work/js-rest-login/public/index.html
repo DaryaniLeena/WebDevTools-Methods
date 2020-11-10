@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <link rel="stylesheet" href="todo.css" />
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="todo-app">
-      <div class="login hidden">
-        <label>Username: <input type="text" /></label>
-        <button type="button" disabled>Login</button>
-        <div class="login-status"></div>
-      </div>
-      <div class="logged-in hidden">
-        <div class="add-task">
-          Add Task:
-          <input class="input-item" />
-          <button class="add-button" disabled>Add</button>
+        <div class="login hidden">
+            <div class="header-component">
+                <h3>LOGIN</h3>
+            </div>
+            <div class="main-component">
+                <label>Username: <input type="text" /></label>
+                <button type="button" disabled>Login</button>
+            </div>
         </div>
-        <div class="todos-div">
-          <ul class="todos"></ul>
+        <div class="logged-in hidden">
+            <div class="header-component">
+                <button id="logout-button">logout</button>
+                <h3>To-do List</h3>
+            </div>
+            <div class="main-component">
+                <div class="add-task">
+                    Add Task:
+                    <input class="input-item" />
+                    <button class="add-button" disabled>Add</button>
+                </div>
+                <div class="item-component">
+                    <ul class="todos"></ul>
+                </div>
+
+            </div>
         </div>
-        <div>
-          <button id="logout-button">logout</button>
+        <div class="status-component">
+            <span class="status"></span>
         </div>
-      </div>
     </div>
     <script src="todo.js"></script>
-  </body>
+</body>
+
 </html>

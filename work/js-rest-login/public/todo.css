@@ -1,14 +1,78 @@
-body { 
-    font-family: sans-serif;
-} 
-#todo-app .login.hidden { 
-    display: none;
+body {
+  background: lavenderblush;
+  font-family: sans-serif;
 }
-#todo-app .logged-in.hidden { 
-    display: none;
+#todo-app .login.hidden {
+  display: none;
+}
+#todo-app .logged-in.hidden {
+  display: none;
 }
 #todo-app .todo.complete {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
-  
-  
+
+#todo-app {
+  background: floralwhite;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  min-height: 630px;
+  position: relative;
+}
+
+.header-component {
+  padding: 10px 0;
+  background: beige;
+}
+
+.main-component {
+  min-height: inherit;
+  padding: 20px 0;
+}
+
+h3 {
+  color: chocolate;
+  font-size: x-large;
+}
+
+li {
+  list-style-type: none;
+  justify-content: center;
+  font-size: 1.2em;
+  border-bottom: 0.5px solid rgb(62, 105, 31);
+  padding: 15px;
+}
+
+ul {
+  padding-left: 0px;
+  height: 374px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+#logout-button {
+  margin: auto;
+}
+
+.logout-component {
+  text-align: center;
+}
+
+.status-component {
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  width: -webkit-fill-available;
+  background-color: #f3e5f5;
+  border: 1px solid #ab47bc;
+}
+
+.status {
+  height: 32px; /* height + top/bottom paddding + top/bottom border must add up to footer height */
+  padding: 8px;
+}
+
+.delete {
+  color: darkseagreen;
+}

@@ -1,5 +1,5 @@
 const login = require("./login");
-const todos = {
+const userTodos = {
   Amit: {
     username: "Amit",
     todos: [
@@ -28,23 +28,31 @@ function userExists(username) {
   );
   return record && record.uid;
 }
+function taskExists(items, name) {
+  const record = Object.values(items).some(
+    (item) => item.task.toLowerCase() === name.trim().toLowerCase()
+  );
+  return record;
+}
+function itemIdExists(items, itemid) {
+  const record = Object.values(items).some(
+    (item) => item.id === itemid
+  );
+  return record;
+}
 
-//   export const performLogin = function (username) {
 const addUser = function (username) {
-  // In real world, use a uuid/guid instead
-
   const oldId = userExists(username);
-  // console.log(oldId);
   const id = oldId || Math.floor(Math.random() * 10000);
   login.sessions[id] = { username, uid: id, current: true };
-  if (!todos[username]) {
-    todos[username] = { username, todos: [] };
+  if (!userTodos[username]) {
+    userTodos[username] = { username, todos: [] };
   }
   return id;
 };
 
 const counter = () => {
-  let count = 2; // so that itemid starts from 3, i & 2 is already given for first two items
+  let count = 2; // 1 & 2 is already given
   return () => {
     count += 1;
     return count;
@@ -52,10 +60,12 @@ const counter = () => {
 };
 let nextID = counter();
 
-const user = {
-  todos,
+const todo = {
+  userTodos,
   nextID,
   addUser,
+  taskExists,
+  itemIdExists
 };
 
-module.exports = user;
+module.exports = todo;

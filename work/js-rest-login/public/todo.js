@@ -16,6 +16,7 @@
 /*! export resetLoginItemField [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export showContent [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export showLogin [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export status [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export taskInput [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export usernameEl [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
@@ -34,7 +35,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "addButton": () => /* binding */ addButton,
 /* harmony export */   "taskInput": () => /* binding */ taskInput,
 /* harmony export */   "logoutButton": () => /* binding */ logoutButton,
-/* harmony export */   "loginButton": () => /* binding */ loginButton
+/* harmony export */   "loginButton": () => /* binding */ loginButton,
+/* harmony export */   "status": () => /* binding */ status
 /* harmony export */ });
 function showContent() {
   document.querySelector("#todo-app .login").classList.add("hidden");
@@ -64,6 +66,7 @@ var addButton = document.querySelector("#todo-app .add-button");
 var taskInput = document.querySelector("#todo-app .input-item");
 var logoutButton = document.querySelector("#todo-app #logout-button");
 var loginButton = document.querySelector("#todo-app .login button");
+var status = document.querySelector('.status');
 
 /***/ }),
 
@@ -228,6 +231,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _display__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./display */ "./src/display.js");
 ;
 
+var errMsgs = {
+  'duplicate': 'Status: this task already exists',
+  'network-error': 'Status: There was a problem connecting to the network, try again',
+  'missing-task': 'Status: No such task Available',
+  'bad-login': 'Status: Bad-login: This value is not allowed'
+};
 var todos = {};
 addLogin();
 disableLoginButtonIfNoInput();
@@ -238,7 +247,7 @@ addAbilityToCompleteItems();
 enablelogout();
 
 function updateStatus(message) {
-  status.innerText = message;
+  _display__WEBPACK_IMPORTED_MODULE_1__.status.innerText = message;
 }
 
 function disableLoginButtonIfNoInput() {
@@ -280,9 +289,9 @@ function addLogin() {
       todos = userInfo.todos;
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.resetLoginItemField)();
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderTodos)(todos);
+      updateStatus("");
     })["catch"](function (err) {
-      // fixme - show errors
-      console.log(err);
+      updateStatus(errMsgs[err.error] || err.error);
     });
   });
 }
@@ -306,8 +315,10 @@ function addAbilityToAddItems() {
       (0,_services__WEBPACK_IMPORTED_MODULE_0__.addTasks)(name).then(function (ans) {
         (0,_display__WEBPACK_IMPORTED_MODULE_1__.resetAddItemField)();
         (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderTodos)(ans.todos);
+        updateStatus("");
       })["catch"](function (err) {
         updateStatus(errMsgs[err.error] || err.error);
+        (0,_display__WEBPACK_IMPORTED_MODULE_1__.resetAddItemField)();
       });
     }
   });
