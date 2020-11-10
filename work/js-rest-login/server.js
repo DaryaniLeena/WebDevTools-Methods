@@ -39,7 +39,7 @@ app.post("/task", express.json(), (req, res) => {
     const uid = req.cookies.sid;
     const currentUser = login.sessions[uid].username;
     if (!(name.trim())) {
-        res.status(400).json({ error: "missing-task" });
+        res.status(400).json({ error: "bad-input" });
         return;
     }
     if (todo.taskExists(todo.userTodos[currentUser].todos, name)) {

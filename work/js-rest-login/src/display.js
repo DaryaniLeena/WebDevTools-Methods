@@ -19,11 +19,11 @@ export function renderTodos(todos) {
         .join("\n");
     listEl.innerHTML = html;
 }
-export function resetAddItemField(){
+export function resetAddItemField() {
     taskInput.value = '';
     addButton.disabled = true;
 }
-export function resetLoginItemField(){
+export function resetLoginItemField() {
     usernameEl.value = '';
     loginButton.disabled = true;
 }

@@ -235,7 +235,8 @@ var errMsgs = {
   'duplicate': 'Status: this task already exists',
   'network-error': 'Status: There was a problem connecting to the network, try again',
   'missing-task': 'Status: No such task Available',
-  'bad-login': 'Status: Bad-login: This value is not allowed'
+  'bad-login': 'Status: Bad-login: This value is not allowed',
+  'bad-input': 'Status: Bad-Input: This value is not allowed'
 };
 var todos = {};
 addLogin();
