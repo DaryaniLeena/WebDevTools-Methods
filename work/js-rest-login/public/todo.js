@@ -2,13 +2,82 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/display.js":
+/*!************************!*\
+  !*** ./src/display.js ***!
+  \************************/
+/*! namespace exports */
+/*! export addButton [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export listEl [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export loginButton [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export logoutButton [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export renderTodos [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export resetAddItemField [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export resetLoginItemField [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export showContent [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export showLogin [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export taskInput [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export usernameEl [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "showContent": () => /* binding */ showContent,
+/* harmony export */   "showLogin": () => /* binding */ showLogin,
+/* harmony export */   "listEl": () => /* binding */ listEl,
+/* harmony export */   "renderTodos": () => /* binding */ renderTodos,
+/* harmony export */   "resetAddItemField": () => /* binding */ resetAddItemField,
+/* harmony export */   "resetLoginItemField": () => /* binding */ resetLoginItemField,
+/* harmony export */   "usernameEl": () => /* binding */ usernameEl,
+/* harmony export */   "addButton": () => /* binding */ addButton,
+/* harmony export */   "taskInput": () => /* binding */ taskInput,
+/* harmony export */   "logoutButton": () => /* binding */ logoutButton,
+/* harmony export */   "loginButton": () => /* binding */ loginButton
+/* harmony export */ });
+function showContent() {
+  document.querySelector("#todo-app .login").classList.add("hidden");
+  document.querySelector("#todo-app .logged-in").classList.remove("hidden");
+}
+function showLogin() {
+  document.querySelector("#todo-app .login").classList.remove("hidden");
+  document.querySelector("#todo-app .logged-in").classList.add("hidden");
+}
+var listEl = document.querySelector("#todo-app .todos");
+function renderTodos(todos) {
+  var html = todos.map(function (todo) {
+    return "<li>\n                    <span class=\"todo ".concat(todo.done ? "complete" : "", "\" data-itemid=\"").concat(todo.id, "\">").concat(todo.task, "</span>\n                    <span class=\"delete\" data-itemid=\"").concat(todo.id, "\">X</span>\n                    </li> ");
+  }).join("\n");
+  listEl.innerHTML = html;
+}
+function resetAddItemField() {
+  taskInput.value = '';
+  addButton.disabled = true;
+}
+function resetLoginItemField() {
+  usernameEl.value = '';
+  loginButton.disabled = true;
+}
+var usernameEl = document.querySelector("#todo-app .login input");
+var addButton = document.querySelector("#todo-app .add-button");
+var taskInput = document.querySelector("#todo-app .input-item");
+var logoutButton = document.querySelector("#todo-app #logout-button");
+var loginButton = document.querySelector("#todo-app .login button");
+
+/***/ }),
+
 /***/ "./src/services.js":
 /*!*************************!*\
   !*** ./src/services.js ***!
   \*************************/
 /*! namespace exports */
+/*! export addTasks [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export checkLoginStatus [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export completeTask [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export performDelete [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export performLogin [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export performLogout [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
 /*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
@@ -16,7 +85,11 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "checkLoginStatus": () => /* binding */ checkLoginStatus,
-/* harmony export */   "performLogin": () => /* binding */ performLogin
+/* harmony export */   "performLogin": () => /* binding */ performLogin,
+/* harmony export */   "performLogout": () => /* binding */ performLogout,
+/* harmony export */   "addTasks": () => /* binding */ addTasks,
+/* harmony export */   "performDelete": () => /* binding */ performDelete,
+/* harmony export */   "completeTask": () => /* binding */ completeTask
 /* harmony export */ });
 var checkLoginStatus = function checkLoginStatus() {
   return fetch("/session", {
@@ -57,19 +130,87 @@ var performLogin = function performLogin(username) {
       return Promise.reject(err);
     });
   });
-}; //   export const enablelogout= function() {
-//     return fetch(`/session`, {
-//         method: 'POST',
-//       })
-//       .catch( () => Promise.reject( { error: 'network-error' }) )
-//       .then(convertError)
-//       .then( ()=> {
-//           return
-//       })
-//       .catch( err => {
-//         updateStatus(errMsgs[err.error] || err.error);
-//       });
-//     }
+};
+var performLogout = function performLogout() {
+  return fetch("/logout", {
+    method: "POST"
+  })["catch"](function () {
+    return Promise.reject({
+      error: "network-error"
+    });
+  }).then(function (response) {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return response.json().then(function (err) {
+      return Promise.reject(err);
+    });
+  });
+};
+var addTasks = function addTasks(name) {
+  return fetch("/task", {
+    method: "POST",
+    headers: new Headers({
+      "content-type": "application/json"
+    }),
+    body: JSON.stringify({
+      name: name
+    })
+  })["catch"](function () {
+    return Promise.reject({
+      error: "network-error"
+    });
+  }).then(function (response) {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return response.json().then(function (err) {
+      return Promise.reject(err);
+    });
+  });
+};
+var performDelete = function performDelete(itemid) {
+  return fetch("/task/".concat(itemid), {
+    method: "DELETE"
+  })["catch"](function () {
+    return Promise.reject({
+      error: "network-error"
+    });
+  }).then(function (response) {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return response.json().then(function (err) {
+      return Promise.reject(err);
+    });
+  });
+};
+var completeTask = function completeTask(itemid) {
+  return fetch("/task", {
+    method: "PATCH",
+    headers: new Headers({
+      "content-type": "application/json"
+    }),
+    body: JSON.stringify({
+      itemid: itemid
+    })
+  })["catch"](function () {
+    return Promise.reject({
+      error: "network-error"
+    });
+  }).then(function (response) {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return response.json().then(function (err) {
+      return Promise.reject(err);
+    });
+  });
+};
 
 /***/ }),
 
@@ -84,12 +225,13 @@ var performLogin = function performLogin(username) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services */ "./src/services.js");
+/* harmony import */ var _display__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./display */ "./src/display.js");
 ;
-var todos = []; // TODO - should be object, not array
 
+var todos = {};
 addLogin();
-disableButtonIfNoInput();
-var listEl = document.querySelector("#todo-app .todos");
+disableLoginButtonIfNoInput();
+disableAddButtonIfNoInput();
 addAbilityToAddItems();
 addAbilityToDeleteItems();
 addAbilityToCompleteItems();
@@ -99,13 +241,15 @@ function updateStatus(message) {
   status.innerText = message;
 }
 
-function convertError(response) {
-  if (response.ok) {
-    return response.json();
-  }
+function disableLoginButtonIfNoInput() {
+  _display__WEBPACK_IMPORTED_MODULE_1__.usernameEl.addEventListener('input', function () {
+    _display__WEBPACK_IMPORTED_MODULE_1__.loginButton.disabled = !_display__WEBPACK_IMPORTED_MODULE_1__.usernameEl.value;
+  });
+}
 
-  return response.json().then(function (err) {
-    return Promise.reject(err);
+function disableAddButtonIfNoInput() {
+  _display__WEBPACK_IMPORTED_MODULE_1__.taskInput.addEventListener('input', function () {
+    _display__WEBPACK_IMPORTED_MODULE_1__.addButton.disabled = !_display__WEBPACK_IMPORTED_MODULE_1__.taskInput.value;
   });
 } // Check for login
 
@@ -114,38 +258,28 @@ var pollingId;
 
 var refresh = function refresh() {
   (0,_services__WEBPACK_IMPORTED_MODULE_0__.checkLoginStatus)().then(function (userInfo) {
-    showContent();
+    (0,_display__WEBPACK_IMPORTED_MODULE_1__.showContent)();
+    _display__WEBPACK_IMPORTED_MODULE_1__.usernameEl.value = "";
     todos = userInfo.todos;
-    renderTodos(todos);
+    (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderTodos)(todos);
   }).then(function () {
     pollingId = setTimeout(refresh, 5000);
   })["catch"](function (error) {
-    showLogin();
+    (0,_display__WEBPACK_IMPORTED_MODULE_1__.showLogin)();
     clearTimeout(pollingId);
   });
 };
 
-refresh(); // TODO: Move these HTML-changing functions to an import from another file
-
-function showContent() {
-  document.querySelector("#todo-app .login").classList.add("hidden");
-  document.querySelector("#todo-app .logged-in").classList.remove("hidden");
-}
-
-function showLogin() {
-  document.querySelector("#todo-app .login").classList.remove("hidden");
-  document.querySelector("#todo-app .logged-in").classList.add("hidden");
-}
+refresh();
 
 function addLogin() {
-  document.querySelector("#todo-app .login button").addEventListener("click", function () {
-    var usernameEl = document.querySelector("#todo-app .login input");
-    var username = usernameEl.value; // call service
-
+  _display__WEBPACK_IMPORTED_MODULE_1__.loginButton.addEventListener("click", function () {
+    var username = _display__WEBPACK_IMPORTED_MODULE_1__.usernameEl.value;
     (0,_services__WEBPACK_IMPORTED_MODULE_0__.performLogin)(username).then(function (userInfo) {
-      showContent();
+      (0,_display__WEBPACK_IMPORTED_MODULE_1__.showContent)();
       todos = userInfo.todos;
-      renderTodos(todos);
+      (0,_display__WEBPACK_IMPORTED_MODULE_1__.resetLoginItemField)();
+      (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderTodos)(todos);
     })["catch"](function (err) {
       // fixme - show errors
       console.log(err);
@@ -154,15 +288,9 @@ function addLogin() {
 }
 
 function enablelogout() {
-  document.querySelector("#todo-app #logout-button").addEventListener("click", function () {
-    fetch("/logout", {
-      method: "POST"
-    })["catch"](function () {
-      return Promise.reject({
-        error: "network-error"
-      });
-    }).then(convertError).then(function () {
-      showLogin();
+  _display__WEBPACK_IMPORTED_MODULE_1__.logoutButton.addEventListener("click", function () {
+    (0,_services__WEBPACK_IMPORTED_MODULE_0__.performLogout)().then(function () {
+      (0,_display__WEBPACK_IMPORTED_MODULE_1__.showLogin)();
       updateStatus("");
     })["catch"](function (err) {
       updateStatus(errMsgs[err.error] || err.error);
@@ -171,26 +299,13 @@ function enablelogout() {
 }
 
 function addAbilityToAddItems() {
-  document.querySelector("#todo-app .add-button").addEventListener("click", function () {
-    var name = document.querySelector("#todo-app .input-item").value;
+  _display__WEBPACK_IMPORTED_MODULE_1__.addButton.addEventListener("click", function () {
+    var name = _display__WEBPACK_IMPORTED_MODULE_1__.taskInput.value;
 
     if (name) {
-      fetch("/task", {
-        method: "POST",
-        headers: new Headers({
-          "content-type": "application/json"
-        }),
-        body: JSON.stringify({
-          name: name
-        })
-      })["catch"](function () {
-        return Promise.reject({
-          error: "network-error"
-        });
-      }).then(convertError).then(function (ans) {
-        document.querySelector("#todo-app .input-item").value = "";
-        console.log(todos);
-        renderTodos(ans.todos);
+      (0,_services__WEBPACK_IMPORTED_MODULE_0__.addTasks)(name).then(function (ans) {
+        (0,_display__WEBPACK_IMPORTED_MODULE_1__.resetAddItemField)();
+        (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderTodos)(ans.todos);
       })["catch"](function (err) {
         updateStatus(errMsgs[err.error] || err.error);
       });
@@ -198,25 +313,12 @@ function addAbilityToAddItems() {
   });
 }
 
-function renderTodos(todos) {
-  var html = todos.map(function (todo) {
-    return " <li>\n        <span class=\"todo ".concat(todo.done ? "complete" : "", "\" data-itemid=\"").concat(todo.id, "\">").concat(todo.task, "</span>\n        <span class=\"delete\" data-itemid=\"").concat(todo.id, "\">X</span>\n      </li> ");
-  }).join("\n");
-  listEl.innerHTML = html;
-}
-
 function addAbilityToDeleteItems() {
-  listEl.addEventListener("click", function (e) {
+  _display__WEBPACK_IMPORTED_MODULE_1__.listEl.addEventListener("click", function (e) {
     if (e.target.classList.contains("delete")) {
       var itemid = e.target.dataset.itemid;
-      fetch("/task/".concat(itemid), {
-        method: "DELETE"
-      })["catch"](function () {
-        return Promise.reject({
-          error: "network-error"
-        });
-      }).then(convertError).then(function (ans) {
-        renderTodos(ans.todos);
+      (0,_services__WEBPACK_IMPORTED_MODULE_0__.performDelete)(itemid).then(function (ans) {
+        (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderTodos)(ans.todos);
         updateStatus("");
       })["catch"](function (err) {
         updateStatus(errMsgs[err.error] || err.error);
@@ -226,34 +328,16 @@ function addAbilityToDeleteItems() {
 }
 
 function addAbilityToCompleteItems() {
-  listEl.addEventListener("click", function (e) {
+  _display__WEBPACK_IMPORTED_MODULE_1__.listEl.addEventListener("click", function (e) {
     if (e.target.classList.contains("todo")) {
       var itemid = e.target.dataset.itemid;
-      fetch("/task", {
-        method: "PATCH",
-        headers: new Headers({
-          "content-type": "application/json"
-        }),
-        body: JSON.stringify({
-          itemid: itemid
-        })
-      })["catch"](function () {
-        return Promise.reject({
-          error: "network-error"
-        });
-      }).then(convertError).then(function (ans) {
-        renderTodos(ans.todos);
+      (0,_services__WEBPACK_IMPORTED_MODULE_0__.completeTask)(itemid).then(function (ans) {
+        (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderTodos)(ans.todos);
         updateStatus("");
       })["catch"](function (err) {
         updateStatus(errMsgs[err.error] || err.error);
       });
     }
-  });
-}
-
-function disableButtonIfNoInput() {
-  document.querySelector("#todo-app .input-item").addEventListener("input", function () {
-    document.querySelector("#todo-app .add-button").disabled = !document.querySelector("#todo-app .input-item").value;
   });
 }
 
