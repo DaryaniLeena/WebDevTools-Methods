@@ -1,0 +1,14 @@
+body { 
+    font-family: sans-serif;
+} 
+#todo-app .login.hidden { 
+    display: none;
+}
+#todo-app .logged-in.hidden { 
+    display: none;
+}
+#todo-app .todo.complete {
+    text-decoration: line-through;
+}
+  
+  
