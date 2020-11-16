@@ -65,9 +65,9 @@ It is important to separate the function that fetches data from what we do with 
 
 ## Q9: Explain why try/catch is useless when dealing with asynchronous errors (assume you aren't using async/await)
 
-try/catch works very well when you have fully synchronous code, but asynchronous operations make it useless because no errors will be caught. i.e., the function will begin its course while the outer stack runs through and gets to the last line without any errors. If an error occurs at some point in the future inside an asynchronous function – nothing will be caught.
+try/catch works very well when you have fully synchronous code, but asynchronous operations make it useless because no errors will be caught. i.e., the function will begin its course while the outer stack runs through and gets to the last line without any errors. If an error occurs at some point in the future inside an asynchronous function, nothing will be caught.
 
-When we use Promises, we’ve lost our error handling. We don’t need to do anything special here to propagate error because we return a promise and there’s built-in support for error flow.
+When we use Promises, we’ve lost our error handling. We don’t need to do anything special to propagate error because we return a promise and there’s built-in support for error flow.
 
 
 ## Q10: Is separation of concerns a front end issue, a server-side issue, or both?  Describe an example the demonstrates your answer.

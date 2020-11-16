@@ -52,7 +52,7 @@ export function renderRecipeList(recipeList) {
             const recipe = recipeList[id];
             return `
                 <li class="recipe-item">
-                <button data-id="${id}" class="recipe-btn" name="recipe">${recipe.title}: By ${recipe.author}</button>
+                <button data-id="${id}" class="recipe-btn" name="recipe">${recipe.title}: By Chef ${recipe.author}</button>
                 </li>    
                 `;
         })

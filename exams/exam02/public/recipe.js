@@ -103,7 +103,7 @@ function renderRecipePage(title, author, ingredients, instruction) {
 function renderRecipeList(recipeList) {
   recipenames.innerHTML = Object.keys(recipeList).map(function (id) {
     var recipe = recipeList[id];
-    return "\n                <li class=\"recipe-item\">\n                <button data-id=\"".concat(id, "\" class=\"recipe-btn\" name=\"recipe\">").concat(recipe.title, ": By ").concat(recipe.author, "</button>\n                </li>    \n                ");
+    return "\n                <li class=\"recipe-item\">\n                <button data-id=\"".concat(id, "\" class=\"recipe-btn\" name=\"recipe\">").concat(recipe.title, ": By Chef ").concat(recipe.author, "</button>\n                </li>    \n                ");
   }).join("\n");
 }
 function showLoginUserButtons() {
@@ -145,9 +145,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 (function iife() {
-  //   const appState = {
-  //     isLoggedIn: false,
-  //   };
   var isUserLoggedIn = false;
 
   function disableLoginButtonIfNoInput() {
@@ -159,9 +156,11 @@ __webpack_require__.r(__webpack_exports__);
   (0,_service__WEBPACK_IMPORTED_MODULE_0__.checkIfLogin)().then(function () {
     isUserLoggedIn = true;
     renderHomePage();
-  })["catch"](function () {
+    (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)("");
+  })["catch"](function (err) {
     isUserLoggedIn = false;
     renderHomePage();
+    (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)(err.error);
   });
   _display__WEBPACK_IMPORTED_MODULE_1__.login.addEventListener("click", function (e) {
     renderLoginPage();

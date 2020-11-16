@@ -67,16 +67,14 @@ app.post("/recipe", express.json(), (req, res) => {
   const ingredients = req.body.ingredients;
   const instruction = req.body.instruction;
   const author = session.userList[uid].username;
-  if (!uid || !session.userList[uid]) {
-    res.status(401).json({
-      error: "Unauthorized User",
-    });
+  if (!uid) {
+    res.status(401).json({ error: "login-required" });
     return;
   }
   if (!session.userList[uid]) {
     res.clearCookie("uid");
     res.status(403).json({
-      error: "User does not exist",
+      error: "login-invalid",
     });
     return;
   }
@@ -104,14 +102,14 @@ app.delete("/session", (req, res) => {
   const uid = req.cookies.uid;
   if (!uid || !session.userList[uid]) {
     res.status(401).json({
-      error: "Unauthorized User",
+      error: "login-required",
     });
     return;
   }
   if (!session.userList[uid]) {
     res.clearCookie("uid");
     res.status(403).json({
-      error: "User does not exist",
+      error: "login-invalid",
     });
     return;
   }
