@@ -4,7 +4,7 @@ const isValidSession = function (uid) {
 };
 
 const validateUsername = function (username) {
-    if (!username || (username.toLowerCase()).includes("dog") || username.includes(" ")) {
+    if (!username || username.toLowerCase().includes("dog") || username.includes(" ")) {
         return false;
     }
     return true;
@@ -13,8 +13,7 @@ const validateUsername = function (username) {
 const session = {
     userList,
     isValidSession,
-    validateUsername
-}
+    validateUsername,
+};
 
 module.exports = session;
-

@@ -17,14 +17,16 @@ Example: if there is a URL /addStudent/, this does not represent a resource rath
   console.log(`user is named ${username}`);
 ```  
 
-<<<<<<< HEAD
+
 This code will not return the username because calling fetch() will return a promise and we have to wait for the promise to resolve by passing a handler inside the then() method of the promise. That handler receives the return value of the fetch promise. If the request is successful, now we can use the return value to show the username in the console.
 
 Correct Approach would be :
 
+```
 const username = fetch('/username');
-  username.then(response => response.json())
+username.then(response => response.json())
   .then(user => console.log(user))
+```
 
 This will return a user name.
 
@@ -79,6 +81,7 @@ Another example is :
 file:inventory.js
 
 //code to delete an item
+```
 item.addEventListener('click', (e) => {
     if(e.target.classList.contains('delete') ) {
       const itemid = e.target.dataset.itemid;
@@ -96,12 +99,12 @@ item.addEventListener('click', (e) => {
       });
     }
   });
-
+```
 
 with separation of concern, we can write it as:
 
 file: inventory.js
-
+```
 item.addEventListener('click', (e) => {
     if(e.target.classList.contains('delete') ) {
       const itemid = e.target.dataset.itemid;
@@ -115,11 +118,11 @@ item.addEventListener('click', (e) => {
       });
     }
   });
-
+```
 So, in the above code, we decoupled service call and the HTML modification by writing a different method for fetch operation which is written in a different file and then exported to the main file.
 
 file: services.js
-
+```
   export const deleteItem = (itemId) => {
   return fetch("/item/${itemId}", {
     method: "DELETE",
@@ -136,3 +139,4 @@ file: services.js
         return response.json().then((err) => Promise.reject(err));
     });
 };
+```

@@ -22,7 +22,7 @@ body {
   text-align: center;
   height: 450px;
   margin: 5px 0;
-  color:purple;
+  color: purple;
 }
 .login-div {
   margin: 15px;
@@ -50,24 +50,25 @@ body {
   width: 100%;
   height: 50px;
   margin: 5px 0;
-  color:purple;
+  color: purple;
+  font-size: medium;
 }
 
 .home-content {
   background-color: cornsilk;
-    text-align: center;
-    height: 450px;
-    margin: 5px 0;
-    overflow-y: auto;
+  text-align: center;
+  height: 450px;
+  margin: 5px 0;
+  overflow-y: auto;
 }
 
-.home-content .hidden{
+.home-content .hidden {
   display: none;
 }
 
 .recipe-details-new {
   margin: 5px 0;
-  height:450px;
+  height: 450px;
   background-color: cornsilk;
   overflow: auto;
 }
@@ -79,7 +80,7 @@ body {
 .recipe-details {
   padding: 10px;
   text-align: center;
-  color: #9e2aa5;;
+  color: #9e2aa5;
   font-size: larger;
 }
 
@@ -92,27 +93,27 @@ body {
 }
 
 button:disabled,
-button[disabled]{
+button[disabled] {
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
 }
 
-.heading{
+.heading {
   background-color: cornsilk;
-    text-align: center;
-    font-family: cursive;
-    padding: 20px;
-    margin-bottom: 5px;
-    color: darkmagenta;
-    font-size: -webkit-xxx-large;
+  text-align: center;
+  font-family: cursive;
+  padding: 20px;
+  margin-bottom: 5px;
+  color: darkmagenta;
+  font-size: -webkit-xxx-large;
 }
 
-.hidden{
+.hidden {
   display: none;
 }
 
-.login-header{
+.login-header {
   color: purple;
 }
 
@@ -122,18 +123,20 @@ button[disabled]{
   width: -webkit-fill-available;
   background-color: #f3e5f5;
   border: 1px solid #ab47bc;
+  text-align: center;
+  color: purple;
 }
 
 .status {
-  height: 32px; 
+  height: 32px;
   padding: 8px;
 }
 
-.formfields{
+.formfields {
   margin: 10px;
 }
 
-.recipe-title{
+.recipe-title {
   padding: 10px;
 }
 
@@ -141,4 +144,3 @@ textarea {
   width: 500px;
   height: 100px;
 }
-

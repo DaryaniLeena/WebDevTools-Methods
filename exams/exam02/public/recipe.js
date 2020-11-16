@@ -103,7 +103,7 @@ function renderRecipePage(title, author, ingredients, instruction) {
 function renderRecipeList(recipeList) {
   recipenames.innerHTML = Object.keys(recipeList).map(function (id) {
     var recipe = recipeList[id];
-    return "\n        <li class=\"recipe-item\">\n          <button data-id=\"".concat(id, "\" class=\"recipe-btn\" name=\"recipe\">").concat(recipe.title, ": By ").concat(recipe.author, "</button>\n        </li>    \n    ");
+    return "\n                <li class=\"recipe-item\">\n                <button data-id=\"".concat(id, "\" class=\"recipe-btn\" name=\"recipe\">").concat(recipe.title, ": By ").concat(recipe.author, "</button>\n                </li>    \n                ");
   }).join("\n");
 }
 function showLoginUserButtons() {
@@ -117,12 +117,12 @@ function showNonLoginUserButtons() {
   login.style.visibility = "visible";
 }
 function resetRecipeFieldButtons() {
-  document.querySelector('[name="Title"]').value = '';
-  document.querySelector('[name="Ingredients"]').value = '';
-  document.querySelector('[name="Instructions"]').value = '';
+  document.querySelector('[name="Title"]').value = "";
+  document.querySelector('[name="Ingredients"]').value = "";
+  document.querySelector('[name="Instructions"]').value = "";
 }
 function updateStatus(text) {
-  document.querySelector('.status').innerHTML = text;
+  document.querySelector(".status").innerHTML = text;
 }
 
 /***/ }),
@@ -145,10 +145,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 (function iife() {
-  var appState = {
-    isLoggedIn: false // error: "",
-
-  };
+  //   const appState = {
+  //     isLoggedIn: false,
+  //   };
+  var isUserLoggedIn = false;
 
   function disableLoginButtonIfNoInput() {
     _display__WEBPACK_IMPORTED_MODULE_1__.usernameEl.addEventListener("input", function () {
@@ -157,10 +157,10 @@ __webpack_require__.r(__webpack_exports__);
   }
 
   (0,_service__WEBPACK_IMPORTED_MODULE_0__.checkIfLogin)().then(function () {
-    appState.isLoggedIn = true;
+    isUserLoggedIn = true;
     renderHomePage();
   })["catch"](function () {
-    appState.isLoggedIn = false;
+    isUserLoggedIn = false;
     renderHomePage();
   });
   _display__WEBPACK_IMPORTED_MODULE_1__.login.addEventListener("click", function (e) {
@@ -176,7 +176,7 @@ __webpack_require__.r(__webpack_exports__);
   _display__WEBPACK_IMPORTED_MODULE_1__.userlogin.addEventListener("click", function (e) {
     var username = _display__WEBPACK_IMPORTED_MODULE_1__.usernameEl.value;
     (0,_service__WEBPACK_IMPORTED_MODULE_0__.loginUser)(username).then(function () {
-      appState.isLoggedIn = true;
+      isUserLoggedIn = true;
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)("");
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.resetLoginItemField)();
       renderHomePage();
@@ -189,7 +189,7 @@ __webpack_require__.r(__webpack_exports__);
     (0,_display__WEBPACK_IMPORTED_MODULE_1__.showHomePage)();
     getRecipe();
 
-    if (appState.isLoggedIn) {
+    if (isUserLoggedIn) {
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.showLoginUserButtons)();
     } else {
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.showNonLoginUserButtons)();
@@ -211,9 +211,9 @@ __webpack_require__.r(__webpack_exports__);
   });
 
   function getRecipeDesctiption(id) {
-    (0,_service__WEBPACK_IMPORTED_MODULE_0__.getRecipeDescription)(id).then(function (res) {
+    (0,_service__WEBPACK_IMPORTED_MODULE_0__.getRecipeDescription)(id).then(function (recipe) {
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)("");
-      (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderRecipePage)(res.title, res.author, res.ingredients, res.instruction);
+      (0,_display__WEBPACK_IMPORTED_MODULE_1__.renderRecipePage)(recipe.title, recipe.author, recipe.ingredients, recipe.instruction);
     })["catch"](function (err) {
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)(err.error);
       renderHomePage();
@@ -234,9 +234,9 @@ __webpack_require__.r(__webpack_exports__);
     var ingredients = document.querySelector('[name="Ingredients"]').value;
     var instruction = document.querySelector('[name="Instructions"]').value;
     (0,_display__WEBPACK_IMPORTED_MODULE_1__.resetRecipeFieldButtons)();
-    (0,_service__WEBPACK_IMPORTED_MODULE_0__.addRecipe)(title, ingredients, instruction).then(function (res) {
+    (0,_service__WEBPACK_IMPORTED_MODULE_0__.addRecipe)(title, ingredients, instruction).then(function (recipe) {
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)("");
-      getRecipeDesctiption(res);
+      getRecipeDesctiption(recipe);
     })["catch"](function (err) {
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)(err.error);
     });
@@ -246,11 +246,11 @@ __webpack_require__.r(__webpack_exports__);
   });
   _display__WEBPACK_IMPORTED_MODULE_1__.logout.addEventListener("click", function (e) {
     (0,_service__WEBPACK_IMPORTED_MODULE_0__.logoutUser)().then(function () {
-      appState.isLoggedIn = false;
+      isUserLoggedIn = false;
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)("");
       renderHomePage();
     })["catch"](function (err) {
-      appState.isLoggedIn = false;
+      isUserLoggedIn = false;
       (0,_display__WEBPACK_IMPORTED_MODULE_1__.updateStatus)(err.error);
       renderHomePage();
     });
