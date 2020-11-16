@@ -17,6 +17,7 @@ Example: if there is a URL /addStudent/, this does not represent a resource rath
   console.log(`user is named ${username}`);
 ```  
 
+<<<<<<< HEAD
 This code will not return the username because calling fetch() will return a promise and we have to wait for the promise to resolve by passing a handler inside the then() method of the promise. That handler receives the return value of the fetch promise. If the request is successful, now we can use the return value to show the username in the console.
 
 Correct Approach would be :
@@ -135,5 +136,3 @@ file: services.js
         return response.json().then((err) => Promise.reject(err));
     });
 };
-
-
