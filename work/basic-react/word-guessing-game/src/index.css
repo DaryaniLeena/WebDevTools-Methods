@@ -1,0 +1,16 @@
+body {
+  background-color: teal;
+  font-size: 23px;
+  color: white;
+  text-align: center;
+}
+
+h1,
+h2 {
+  margin: 50px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
