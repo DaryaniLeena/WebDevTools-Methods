@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./WordGuess.css";
-import { compareWords } from "./Words";
+import { compareWords } from "./Compare";
 
 const WordGuess = () => {
     const [text, setText] = useState("");
