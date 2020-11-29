@@ -1,0 +1,41 @@
+.mes-list {
+    list-style-type: none;
+    width: fit-content;
+}
+
+.mes-list li {
+    padding-top: 10px;
+}
+.user-message {
+    display: flex;
+    flex-direction: row;
+}
+.sender-container {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+.message-sender {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+.message-text {
+    display: flex;
+    border-radius: 40px;
+    background-color: linen;
+    height: fit-content;
+    margin-left: 10px;
+}
+.timestamp {
+    color: darkcyan;
+    display: grid;
+    padding-top: inherit;
+    float: right;
+}
+.message-text span {
+    padding: 10px;
+}
+ul {
+    list-style-type: none;
+}

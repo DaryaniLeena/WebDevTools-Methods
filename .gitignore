@@ -3,3 +3,4 @@ node_modules/
 work/classwork/
 package-lock.json
 .vscode/
+work/react-chat/web-chat/build
