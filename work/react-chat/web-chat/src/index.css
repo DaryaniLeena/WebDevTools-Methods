@@ -5,7 +5,7 @@ body {
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-image: url(./Images/whatsapp_background.jpg);
+    background-image: url(./images/whatsapp_background.jpg);
 }
 
 code {

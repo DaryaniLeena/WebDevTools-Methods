@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { sendMessage } from "../../services/services";
 import "./NewMessage.css";
-import sendButton from "../../Images/sendIcon.png";
+import sendButton from "../../images/sendIcon.png";
 
 function NewMessage({ currentUser, errorMsg }) {
     const [message, setMessage] = useState("");

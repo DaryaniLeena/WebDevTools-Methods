@@ -31,7 +31,7 @@
     height: 90%;
     width: 75%;
     overflow-y: scroll;
-    background-image: url(./Images/message_background.jpg);
+    background-image: url(./images/message_background.jpg);
     float: right;
 }
 
