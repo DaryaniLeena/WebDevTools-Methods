@@ -7,8 +7,8 @@ function MessageList({ errorMsg }) {
     const [messages, setMessages] = useState([]);
     useEffect(() => {
         getAllMessages()
-            .then((userList) => {
-                setMessages(userList);
+            .then((messageList) => {
+                setMessages(messageList);
                 errorMsg("");
             })
             .catch(function (err) {

@@ -86,7 +86,7 @@ app.post("/message/:name", express.json(), (req, res) => {
         timestamp: date.toUTCString(),
         text: message,
     });
-    res.status(200).json("success");
+    res.status(200).json(userMessage.messages);
 });
 
 app.listen(PORT, () => {
