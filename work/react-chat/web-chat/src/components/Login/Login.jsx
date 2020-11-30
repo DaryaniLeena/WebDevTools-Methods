@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { createSession } from "../../services/services";
-import "./login.css";
+import "./Login.css";
 
-const Login = function ({ onLogin }) {
+const Login = function ({ onLogin, errorMsg }) {
     const [username, setUsername] = useState("");
-    const [status, setStatus] = useState("");
     const [isDisabled, setIsDisabled] = useState(true);
 
     const onChange = (e) => {
-        setStatus("");
         setUsername(e.target.value);
         setIsDisabled(!e.target.value);
     };
@@ -17,16 +15,15 @@ const Login = function ({ onLogin }) {
         createSession({ username })
             .then((userinfo) => {
                 onLogin({ username, info: userinfo.info });
-                setStatus("");
+                errorMsg("");
             })
             .catch((err) => {
-                setStatus(err.error);
+                errorMsg(err.error);
             });
     };
 
     return (
         <div className="login-component">
-            <div>{status && <div class="status">{status}</div>}</div>
             <div>
                 <label>
                     UserName:

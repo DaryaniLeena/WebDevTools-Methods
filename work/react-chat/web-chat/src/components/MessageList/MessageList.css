@@ -1,9 +1,9 @@
-.mes-list {
+.all-user-messages {
     list-style-type: none;
     width: fit-content;
 }
 
-.mes-list li {
+.all-user-messages li {
     padding-top: 10px;
 }
 .user-message {
@@ -27,7 +27,7 @@
     height: fit-content;
     margin-left: 10px;
 }
-.timestamp {
+.message-timestamp {
     color: darkcyan;
     display: grid;
     padding-top: inherit;

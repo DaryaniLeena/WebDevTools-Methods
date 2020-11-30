@@ -4,41 +4,40 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = 5000;
 const session = require("./session");
-const chat = require("./chat");
+const userMessage = require("./userMessage");
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("./build"));
 
-app.get("/api/session", (req, res) => {
+app.get("/session", (req, res) => {
     const sid = req.cookies.sid;
     if (!sid) {
-        res.status(401).json({ error: "session-required" });
+        res.status(401).json({ error: "login-required" });
         return;
     }
-    if (!chat.isValid(sid)) {
+    if (!session.isValidSession(sid)) {
         res.status(403).json({ error: "session-invalid" });
         return;
     }
-    res.status(200).json(chat.users[sid].sender);
+    res.status(200).json(session.users[sid].sender);
 });
 
-app.post("/api/session", (req, res) => {
+app.post("/session", (req, res) => {
     const username = req.body.username;
-    // const { sid, error } = session.create({ username });
-    const validUser = chat.chekusername(username);
+    const validUser = session.checkUserName(username);
     if (!validUser) {
-        res.status(400).json({ error: "invalid-user" });
+        res.status(400).json({ error: "bad-login" });
         return;
     }
-    const sid = chat.addUser(username);
+    const sid = session.addUser(username);
     res.cookie("sid", sid);
-    res.status(200).json(chat.users);
+    res.status(200).json(session.users);
 });
 
-app.delete("/api/session", (req, res) => {
+app.delete("/session", (req, res) => {
     const sid = req.cookies.sid;
-    chat.remove(sid);
+    session.removeUser(sid);
     res.clearCookie("sid");
     res.json({ sid, status: "removed" });
 });
@@ -46,44 +45,43 @@ app.delete("/api/session", (req, res) => {
 app.get("/users", (req, res) => {
     const sid = req.cookies.sid;
     if (!sid) {
-        res.status(401).json({ error: "session-required" });
+        res.status(401).json({ error: "login-required" });
         return;
     }
-    if (!chat.isValid(sid)) {
+    if (!session.isValidSession(sid)) {
         res.status(403).json({ error: "session-invalid" });
         return;
     }
-
-    res.status(200).json(chat.users);
+    res.status(200).json(session.users);
 });
 
 app.get("/messages", (req, res) => {
     const sid = req.cookies.sid;
     if (!sid) {
-        res.status(401).json({ error: "session-required" });
+        res.status(401).json({ error: "login-required" });
         return;
     }
-    if (!chat.isValid(sid)) {
+    if (!session.isValidSession(sid)) {
         res.status(403).json({ error: "session-invalid" });
         return;
     }
-    res.status(200).json(chat.messages);
+    res.status(200).json(userMessage.messages);
 });
 
-app.post("/messages/:name", express.json(), (req, res) => {
+app.post("/message/:name", express.json(), (req, res) => {
     const username = req.params.name;
     const message = req.body.message;
     const sid = req.cookies.sid;
     if (!sid) {
-        res.status(401).json({ error: "session-required" });
+        res.status(401).json({ error: "login-required" });
         return;
     }
-    if (!chat.isValid(sid)) {
+    if (!session.isValidSession(sid)) {
         res.status(403).json({ error: "session-invalid" });
         return;
     }
     const date = new Date();
-    chat.addMessage({
+    userMessage.addMessage({
         sender: username,
         timestamp: date.toUTCString(),
         text: message,

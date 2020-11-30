@@ -23,11 +23,11 @@ function ChatWindow({ currentUser }) {
                     <Logout className="logout" performLogout={logout} />
                 </div>
             </div>
-            <div className="chat-app-content">
-                <div className="side-panel">
+            <div className="chat-content">
+                <div className="user-list-container">
                     <UserList />
                 </div>
-                <div className="message-content">
+                <div className="message-list-container">
                     <MessageList />
                 </div>
                 <div className="send-message">

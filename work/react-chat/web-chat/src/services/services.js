@@ -1,5 +1,5 @@
 export const checkSession = () => {
-    return fetch("/api/session", {
+    return fetch("/session", {
         method: "GET",
     })
         .catch(() => Promise.reject({ error: "network-error" }))
@@ -7,12 +7,12 @@ export const checkSession = () => {
             if (response.ok) {
                 return response.json();
             }
-            return response.json().then((json) => Promise.reject(json));
+            return response.json().then((err) => Promise.reject(err));
         });
 };
 
 export const createSession = ({ username }) => {
-    return fetch("/api/session", {
+    return fetch("/session", {
         method: "POST",
         headers: new Headers({
             "content-type": "application/json",
@@ -24,12 +24,12 @@ export const createSession = ({ username }) => {
             if (response.ok) {
                 return response.json();
             }
-            return response.json().then((json) => Promise.reject(json));
+            return response.json().then((err) => Promise.reject(err));
         });
 };
 
 export const endSession = () => {
-    return fetch("/api/session", {
+    return fetch("/session", {
         method: "DELETE",
     })
         .catch(() => Promise.reject({ error: "network-error" }))
@@ -37,7 +37,7 @@ export const endSession = () => {
             if (response.ok) {
                 return response.json();
             }
-            return response.json().then((json) => Promise.reject(json));
+            return response.json().then((err) => Promise.reject(err));
         });
 };
 
@@ -54,14 +54,11 @@ export const addUser = ({ username }) => {
             if (response.ok) {
                 return Promise.resolve(response);
             }
-            return Promise.reject({
-                err: "server-error",
-                details: response.statusCode,
-            });
+            return response.json().then((err) => Promise.reject(err));
         });
 };
 
-export const getUsers = () => {
+export const getActiveUsers = () => {
     return fetch("/users")
         .catch((err) => {
             return Promise.reject({ err: "network-issue", details: err });
@@ -70,14 +67,11 @@ export const getUsers = () => {
             if (response.ok) {
                 return response.json();
             }
-            return Promise.reject({
-                err: "server-error",
-                details: response.statusCode,
-            });
+            return response.json().then((err) => Promise.reject(err));
         });
 };
 
-export const getMessages = () => {
+export const getAllMessages = () => {
     return fetch("/messages")
         .catch((err) => {
             return Promise.reject({ err: "network-issue", details: err });
@@ -86,15 +80,12 @@ export const getMessages = () => {
             if (response.ok) {
                 return response.json();
             }
-            return Promise.reject({
-                err: "server-error",
-                details: response.statusCode,
-            });
+            return response.json().then((err) => Promise.reject(err));
         });
 };
 
-export const sendMessage = ({ user, message }) => {
-    return fetch("/messages/" + user, {
+export const sendMessage = ({ userName, message }) => {
+    return fetch("/message/" + userName, {
         method: "POST",
         headers: new Headers({ "content-type": "application/json" }),
         body: JSON.stringify({ message }),
@@ -106,9 +97,6 @@ export const sendMessage = ({ user, message }) => {
             if (response.ok) {
                 return Promise.resolve(response);
             }
-            return Promise.reject({
-                err: "server-error",
-                details: response.statusCode,
-            });
+            return response.json().then((err) => Promise.reject(err));
         });
 };

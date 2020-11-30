@@ -27,7 +27,7 @@
 .App-link {
     color: #61dafb;
 }
-.message-content {
+.message-list-container {
     height: 90%;
     width: 75%;
     overflow-y: scroll;
@@ -61,7 +61,7 @@
     height: 600px;
     font-family: fantasy;
 }
-.header {
+.chat-header {
     width: 100%;
     align-items: center;
     height: 10%;
@@ -78,39 +78,26 @@
     margin-top: 1.5%;
     text-align: right;
 }
-.chat-app-content {
+.chat-content {
     width: 100%;
     align-items: center;
     flex-flow: wrap;
     height: 90%;
     display: inline-block;
 }
-.side-panel {
+.user-list-container {
     background: black;
     width: 25%;
     height: 90%;
     color: antiquewhite;
     float: left;
 }
-.send-message {
-    display: flex;
-    flex-direction: row;
+.send-message-container {
     width: 100%;
-    align-items: center;
     background-color: white;
     height: 10%;
 }
-input[type="send-message"] {
-    width: 100%;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    display: block;
-    margin: 0 auto;
-    position: relative;
-    border: none;
-    outline: none;
-}
-.main-app-panel {
+.chat-window-container {
     width: 1000px;
     height: 600px;
     background: #fff;
@@ -118,7 +105,7 @@ input[type="send-message"] {
     margin-top: 40px;
 }
 
-.title {
+.heading {
     color: black;
     float: left;
     width: 75%;
@@ -130,4 +117,10 @@ input[type="send-message"] {
 
 .title-container {
     padding-left: 350px;
+}
+
+.status-component {
+    text-align: center;
+    color: wheat;
+    font-weight: bold;
 }

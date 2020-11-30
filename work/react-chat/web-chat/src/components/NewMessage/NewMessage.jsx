@@ -1,44 +1,39 @@
 import React, { useState } from "react";
 import { sendMessage } from "../../services/services";
-import "./SendMessage.css";
+import "./NewMessage.css";
 import sendButton from "../../Images/sendIcon.png";
 
-function SendMessage({ currentUser }) {
+function NewMessage({ currentUser, errorMsg }) {
     const [message, setMessage] = useState("");
     const [isDisabled, setIsDisabled] = useState(true);
-    const handleInput = (inputText) => {
-        setMessage(inputText);
-    };
     const onChange = (e) => {
         setMessage(e.target.value);
         setIsDisabled(!e.target.value || e.target.value.trim() === "");
     };
 
     const saveMessage = () => {
-        const user = currentUser;
-        sendMessage({ user, message })
+        const userName = currentUser;
+        sendMessage({ userName, message })
             .then(function (response) {
                 setMessage("");
                 setIsDisabled(true);
-                // props.refreshMessages();
+                errorMsg("");
             })
             .catch(function (err) {
-                console.log(err.message);
-                // props.setError(err.message);
+                errorMsg(err.error);
             });
     };
 
     return (
         <div className="send-message">
             <input
-                type="send-message"
-                className="to-send"
+                className="user-input"
                 onChange={onChange}
                 value={message}
-                placeholder="Enter message"
+                placeholder="Enter message..."
             />
             <button
-                className="send-btn"
+                className="enter-msg-btn"
                 disabled={isDisabled}
                 onClick={saveMessage}
             >
@@ -48,4 +43,4 @@ function SendMessage({ currentUser }) {
     );
 }
 
-export default SendMessage;
+export default NewMessage;

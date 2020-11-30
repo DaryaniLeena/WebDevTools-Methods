@@ -1,52 +1,65 @@
 const uuid = require("uuid").v4;
+const users = {
+    1: {
+        sender: "Amit",
+        uid: 1,
+    },
+    2: { sender: "Bao", uid: 2 },
+};
+function isExistingUser(username) {
+    let found = false;
+    console.log(users);
+    users.forEach((user) => {
+        if (user.sender === username) {
+            found = true;
+        }
+    });
+    return found;
+}
+function userExists(username) {
+    const record = Object.values(users).find(
+        (user) => user.sender === username
+    );
+    return record && record.uid;
+}
+const addUser = function (username) {
+    const oldId = userExists(username);
+    const id = oldId || uuid();
+    users[id] = { sender: username, uid: id };
+    return id;
+};
+const isValidSession = function (sid) {
+    return users[sid];
+};
+const removeUser = function (sid) {
+    delete users[sid];
+};
 
-const users = {};
-const sessions = {};
-
-const isValidUsername = function (username) {
+const checkUserName = function (username) {
     if (!username) {
         return false;
     }
-    const cleanUsername = username.replace(/[^a-zA-Z0-9_\-]/g, "");
-    if (username !== cleanUsername) {
+    if (!isValidUsername(username)) {
         return false;
     }
     return true;
 };
 
-const create = function ({ username }) {
-    if (!username) {
-        return { error: "username-required" };
+const isValidUsername = function (username) {
+    if (
+        !username ||
+        username.toLowerCase().includes("dog") ||
+        username.includes(" ")
+    ) {
+        return false;
     }
-    if (!isValidUsername(username)) {
-        return { error: "username-invalid" };
-    }
-    const sid = uuid();
-    // create or load user data
-    users[username] = users[username] || {
-        some: "stuff", // this is where actual user data would go
-    };
-    // create session data, link to user
-    sessions[sid] = {
-        sid,
-        username,
-        startTime: Date.now(),
-        info: users[username],
-    };
-    return { sid };
+    return true;
 };
-
-const remove = function (sid) {
-    delete sessions[sid];
-};
-
-const isValid = function (sid) {
-    return !!sessions[sid];
-};
-
 module.exports = {
-    details: sessions,
-    create,
-    remove,
-    isValid,
+    users,
+    isExistingUser,
+    checkUserName,
+    removeUser,
+    isValidSession,
+    addUser,
 };

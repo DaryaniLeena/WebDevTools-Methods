@@ -1,22 +1,24 @@
 import React from "react";
 import "./MessageList.css";
-import { getMessages } from "../../services/services";
+import { getAllMessages } from "../../services/services";
 import { useState, useEffect } from "react";
 
-function MessageList() {
+function MessageList({ errorMsg }) {
     const [messages, setMessages] = useState([]);
     useEffect(() => {
-        getMessages()
+        getAllMessages()
             .then((userList) => {
                 setMessages(userList);
+                errorMsg("");
             })
-            .catch(function (e) {
-                console.log("error");
+            .catch(function (err) {
+                errorMsg(err.error);
+                console.log(err.error);
             });
     }, [messages]);
 
     return (
-        <ol className="mes-list">
+        <ol className="all-user-messages">
             {messages.map((message, index) => {
                 return (
                     <li key={index} className="user-message">
@@ -27,7 +29,7 @@ function MessageList() {
                         </div>
                         <div className="message-text">
                             <span>{message.text}</span>
-                            <span className="timestamp">
+                            <span className="message-timestamp">
                                 {message.timestamp}
                             </span>
                         </div>

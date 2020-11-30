@@ -1,24 +1,26 @@
 import { useState, useEffect } from "react";
-import { getUsers } from "../../services/services";
+import { getActiveUsers } from "../../services/services";
 import "./UserList.css";
 
-const Userlist = function () {
+const Userlist = function ({ errorMsg }) {
     const [users, setUsers] = useState({});
 
     useEffect(() => {
-        getUsers()
+        getActiveUsers()
             .then((userList) => {
                 setUsers(userList);
+                errorMsg("");
             })
-            .catch(function (e) {
-                console.log("error");
+            .catch(function (err) {
+                errorMsg(err.error);
+                console.log(err.error);
             });
     }, [users]);
     const listOfUsers = Object.values(users).map((user) => {
         return (
-            <li className="userAlignment">
-                <div className="user">
-                    <span className="username">{user.sender}</span>
+            <li className="sender-name-item">
+                <div>
+                    <span>{user.sender}</span>
                 </div>
             </li>
         );

@@ -19,14 +19,14 @@
     margin-top: 1.5%;
     text-align: right;
 }
-.chat-app-content {
+.chat-content {
     width: 100%;
     align-items: center;
     flex-flow: wrap;
     height: 90%;
     display: inline-block;
 }
-.side-panel {
+.user-list-container {
     background: black;
     width: 25%;
     height: 90%;
