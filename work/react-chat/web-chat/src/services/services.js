@@ -47,9 +47,7 @@ export const addUser = ({ username }) => {
         headers: new Headers({ "content-type": "application/json" }),
         body: JSON.stringify({ username }),
     })
-        .catch((err) => {
-            return Promise.reject({ err: "network-issue", details: err });
-        })
+        .catch(() => Promise.reject({ error: "network-error" }))
         .then((response) => {
             if (response.ok) {
                 return Promise.resolve(response);
@@ -60,9 +58,7 @@ export const addUser = ({ username }) => {
 
 export const getActiveUsers = () => {
     return fetch("/users")
-        .catch((err) => {
-            return Promise.reject({ err: "network-issue", details: err });
-        })
+        .catch(() => Promise.reject({ error: "network-error" }))
         .then((response) => {
             if (response.ok) {
                 return response.json();
@@ -73,9 +69,7 @@ export const getActiveUsers = () => {
 
 export const getAllMessages = () => {
     return fetch("/messages")
-        .catch((err) => {
-            return Promise.reject({ err: "network-issue", details: err });
-        })
+        .catch(() => Promise.reject({ error: "network-error" }))
         .then((response) => {
             if (response.ok) {
                 return response.json();
@@ -90,9 +84,7 @@ export const sendMessage = ({ userName, message }) => {
         headers: new Headers({ "content-type": "application/json" }),
         body: JSON.stringify({ message }),
     })
-        .catch((err) => {
-            return Promise.reject({ err: "network-issue", details: err });
-        })
+        .catch(() => Promise.reject({ error: "network-error" }))
         .then((response) => {
             if (response.ok) {
                 return Promise.resolve(response);
