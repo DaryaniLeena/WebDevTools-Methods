@@ -1,0 +1,17 @@
+.user-login-name {
+    height: 40px;
+    width: 250px;
+}
+.login-component {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+.login-button {
+    padding: 10px;
+}
+
+.login {
+    width: 125px;
+    height: 25px;
+}
