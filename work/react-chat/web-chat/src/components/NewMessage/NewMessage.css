@@ -1,0 +1,29 @@
+.send-message {
+    width: 100%;
+    display: inline-block;
+    height: 100%;
+}
+.user-input {
+    width: 92%;
+    border: none;
+    outline: none;
+    float: left;
+    margin-top: 20px;
+}
+.enter-msg-btn {
+    border: none;
+    background-color: white;
+    float: right;
+    margin: 3px;
+}
+.sendmessage-image {
+    height: 40px;
+    width: 40px;
+}
+
+button:disabled,
+button[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}

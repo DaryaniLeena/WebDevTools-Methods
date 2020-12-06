@@ -1,0 +1,9 @@
+.logout-button {
+    height: 30px;
+    background: none;
+    border: 1px solid black;
+}
+
+.logout-container {
+    margin-right: 15px;
+}
