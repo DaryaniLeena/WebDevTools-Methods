@@ -66,10 +66,30 @@ function App() {
             </div>
             <div>
                 <Switch>
-                    <Route path="/topRatedMovie" component={TopRatedMovies} />
-                    <Route path="/nowPlayingMovie" component={NowPlaying} />
-                    <Route path="/upcomingMovie" component={Upcoming} />
-                    <Route path="/movies" component={PopularMovies} />
+                    <Route
+                        path="/topRatedMovie"
+                        render={(props) => (
+                            <PopularMovies {...props} movieType="top_rated" />
+                        )}
+                    />
+                    <Route
+                        path="/nowPlayingMovie"
+                        render={(props) => (
+                            <PopularMovies {...props} movieType="now_playing" />
+                        )}
+                    />
+                    <Route
+                        path="/upcomingMovie"
+                        render={(props) => (
+                            <PopularMovies {...props} movieType="upcoming" />
+                        )}
+                    />
+                    <Route
+                        path="/movies"
+                        render={(props) => (
+                            <PopularMovies {...props} movieType="popular" />
+                        )}
+                    />
                     <Route
                         path="/wishlist"
                         render={(props) => (
