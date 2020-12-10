@@ -28,6 +28,7 @@ export const createSession = ({ username }) => {
         .catch(() => Promise.reject({ error: "network-error" }))
         .then((response) => {
             if (response.ok) {
+                console.log(response);
                 return response.json();
             }
             return response.json().then((err) => Promise.reject(err));
@@ -99,9 +100,10 @@ export const getAllGenres = () => {
             "content-type": "application/json",
         }),
     })
-        .then((response) => response.json())
         .then((response) => {
-            console.log(response);
+            if (response.ok) {
+                return response.json();
+            }
         })
         .catch((err) => {
             console.log(err);

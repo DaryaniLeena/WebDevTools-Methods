@@ -14,7 +14,7 @@ const PopularMovies = ({ movieType }) => {
             console.log(movie.current);
             setMovieData(movie.current.results);
         });
-    }, [setMovieList]);
+    }, [movieType]);
 
     const setMovieData = useCallback((obj) => {
         setMovieList(obj.map((element) => <MovieItem props={{ element }} />));

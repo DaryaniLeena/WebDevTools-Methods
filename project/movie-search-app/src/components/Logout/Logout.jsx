@@ -1,7 +1,12 @@
-import React from "react";
-import { useState } from "react";
+import "./Logout.css";
+import { useHistory } from "react-router-dom";
 
-const Logout = () => {
-    return <h1>Logout</h1>;
-};
+function Logout({ props }) {
+    const history = useHistory();
+    const logoutuser = function () {
+        props.performLogout();
+        history.push(`/`);
+    };
+    return <div>{logoutuser()}</div>;
+}
 export default Logout;

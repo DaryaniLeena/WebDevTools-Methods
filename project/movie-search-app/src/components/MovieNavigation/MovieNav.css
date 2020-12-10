@@ -14,3 +14,7 @@ a {
     color: white;
     font-size: larger;
 }
+
+li.navLink:active {
+    background-color: blue;
+}
