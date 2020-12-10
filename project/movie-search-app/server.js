@@ -3,15 +3,12 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 const PORT = 5000;
-// const session = require("./session");
+const session = require("./session");
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("./build"));
 const { v4: uuidv4 } = require("uuid");
-
-app.use(express.static("./public"));
-app.use(cookieParser());
 
 const counter = () => {
     let count = 1;
@@ -23,30 +20,28 @@ const counter = () => {
 nextID = counter();
 
 app.get("/session", (req, res) => {
-    const uid = req.cookies.uid;
-    if (!uid) {
+    const sid = req.cookies.sid;
+    if (!sid) {
         res.status(401).json({ error: "login-required" });
         return;
     }
-    if (session.isValidSession(uid)) {
-        res.status(200).json(recipeStore.recipeList);
+    if (!session.isValidSession(sid)) {
+        res.status(403).json({ error: "session-invalid" });
         return;
     }
-    res.clearCookie("uid");
-    res.status(403).json({ error: "login-invalid" });
+    res.status(200).json(session.users[sid].sender);
 });
 
-app.post("/session", express.json(), (req, res) => {
+app.post("/session", (req, res) => {
     const username = req.body.username;
-    const errors = session.validateUsername(username);
-    if (!errors) {
+    const validUser = session.checkUserName(username);
+    if (!validUser) {
         res.status(400).json({ error: "bad-login" });
         return;
     }
-    const uid = uuidv4();
-    session.userList[uid] = { username };
-    res.cookie("uid", uid);
-    res.status(200).json(session.userList);
+    const sid = session.addUser(username);
+    res.cookie("sid", sid);
+    res.status(200).json(session.users);
 });
 
 // app.get("/recipe", (req, res) => {
@@ -102,22 +97,22 @@ app.post("/session", express.json(), (req, res) => {
 // });
 
 app.delete("/session", (req, res) => {
-    const uid = req.cookies.uid;
-    if (!uid || !session.userList[uid]) {
+    const sid = req.cookies.sid;
+    if (!sid || !session.users[sid]) {
         res.status(401).json({
             error: "login-required",
         });
         return;
     }
-    if (!session.userList[uid]) {
+    if (!session.users[sid]) {
         res.clearCookie("uid");
         res.status(403).json({
             error: "login-invalid",
         });
         return;
     }
-    res.clearCookie("uid");
-    delete session.userList[uid];
+    session.removeUser(sid);
+    res.clearCookie("sid");
     res.status(200).json({
         message: "Logout success!",
     });
