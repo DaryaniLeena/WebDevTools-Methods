@@ -26,7 +26,8 @@ const Login = function ({ props }) {
     const login = () => {
         createSession({ username })
             .then((userinfo) => {
-                props.onLogin({ username, info: userinfo.info });
+                const uid = userinfo.uid;
+                props.onLogin({ username, uid: userinfo.uid });
                 history.push(`/`);
                 // errorMsg("");
             })

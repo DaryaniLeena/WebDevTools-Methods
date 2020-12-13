@@ -2,19 +2,17 @@ import "./App.css";
 import React, { useState } from "react";
 import { Switch, Route, NavLink, Redirect } from "react-router-dom";
 import PopularMovies from "./components/Movies/PopularMovies";
-import Upcoming from "./components/Movies/Upcoming";
-import NowPlaying from "./components/Movies/NowPlaying";
-import TopRatedMovies from "./components/Movies/TopRatedMovies";
-import Wishlist from "./components/WishList/WishList";
 import MovieNav from "./components/MovieNavigation/MovieNav";
 import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
 import logo from "./images/reactLogo.png";
 import { endSession } from "./services/service";
 import MovieDetail from "./components/MovieDetail/MovieDetail";
+import ViewWatchList from "./components/WatchList/ViewWatchlist";
+import Searchform from "./components/Search/Searchform";
+import Search from "./components/Search/Search";
 
 function App() {
-    const [user, setUser] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState("");
     const [error, setError] = useState("");
@@ -30,10 +28,9 @@ function App() {
     const setErrorMethod = function (error) {
         setError(error);
     };
-    const login = function ({ username }) {
+    const login = function ({ username, uid }) {
         setIsLoggedIn(true);
-        setCurrentUser(username);
-        console.log(isLoggedIn);
+        setCurrentUser(uid);
     };
     const logoutLoggedinUser = function () {
         endSession()
@@ -87,13 +84,10 @@ function App() {
                             <img src={logo} className="logoStyle" alt="xyz" />
                         </span>
                         <span>
-                            <input
-                                name="search"
-                                placeholder="Search by movie title"
-                                type="text"
-                                class="search-input"
-                                value=""
-                            />
+                            <Searchform
+                                className="search-input"
+                                text_value="mamta"
+                            ></Searchform>
                         </span>
                     </span>
                     <span className="movieLogin">
@@ -121,6 +115,7 @@ function App() {
                                 <PopularMovies
                                     {...props}
                                     movieType="top_rated"
+                                    uid={currentUser}
                                 />
                             )}
                         />
@@ -130,6 +125,7 @@ function App() {
                                 <PopularMovies
                                     {...props}
                                     movieType="now_playing"
+                                    uid={currentUser}
                                 />
                             )}
                         />
@@ -139,25 +135,57 @@ function App() {
                                 <PopularMovies
                                     {...props}
                                     movieType="upcoming"
+                                    uid={currentUser}
                                 />
                             )}
                         />
                         <Route
+                            path="/movies/:movieid"
+                            render={(routerProps) => {
+                                const movieid =
+                                    routerProps.match.params.movieid;
+                                console.log(movieid);
+                                return (
+                                    <MovieDetail
+                                        {...routerProps}
+                                        movieid={movieid}
+                                        uid={currentUser}
+                                    />
+                                );
+                            }}
+                        />
+                        <Route
                             path="/movies"
                             render={(props) => (
-                                <PopularMovies {...props} movieType="popular" />
+                                <PopularMovies
+                                    {...props}
+                                    movieType="popular"
+                                    uid={currentUser}
+                                />
                             )}
+                        />
+                        <Route
+                            path="/search/:query"
+                            render={(routerProps) => {
+                                const query = routerProps.match.params.query;
+
+                                return (
+                                    <Search
+                                        {...routerProps}
+                                        query={query}
+                                        uid={currentUser}
+                                        className="search-input"
+                                    />
+                                );
+                            }}
                         />
                         <Route
                             path="/wishlist"
                             render={(props) => (
-                                <Wishlist
+                                <ViewWatchList
                                     {...props}
                                     props={{
-                                        user: user,
-                                        setUser: setUser,
-                                        isLoggedIn: false,
-                                        setIsLoggedIn: setIsLoggedIn,
+                                        uid: currentUser,
                                     }}
                                 />
                             )}
@@ -172,19 +200,6 @@ function App() {
                                     }}
                                 />
                             )}
-                        />
-                        <Route
-                            exact
-                            path="/movies/:id"
-                            render={(routerProps) => {
-                                const id = routerProps.match.params.id;
-                                return (
-                                    <MovieDetail
-                                        {...routerProps}
-                                        props={{ id }}
-                                    />
-                                );
-                            }}
                         />
 
                         <Redirect
@@ -207,13 +222,7 @@ function App() {
                             <img src={logo} className="logoStyle" alt="xyz" />
                         </span>
                         <span>
-                            <input
-                                name="search"
-                                placeholder="Search by movie title"
-                                type="text"
-                                class="search-input"
-                                value=""
-                            />
+                            <Searchform className="search-input"></Searchform>
                         </span>
                     </span>
                     <span className="movieLogin">
@@ -238,6 +247,7 @@ function App() {
                                 <PopularMovies
                                     {...props}
                                     movieType="top_rated"
+                                    uid={currentUser}
                                 />
                             )}
                         />
@@ -247,6 +257,7 @@ function App() {
                                 <PopularMovies
                                     {...props}
                                     movieType="now_playing"
+                                    uid={currentUser}
                                 />
                             )}
                         />
@@ -256,14 +267,48 @@ function App() {
                                 <PopularMovies
                                     {...props}
                                     movieType="upcoming"
+                                    uid={currentUser}
                                 />
                             )}
                         />
                         <Route
+                            path="/movies/:movieid"
+                            render={(routerProps) => {
+                                const movieid =
+                                    routerProps.match.params.movieid;
+                                console.log(movieid);
+                                return (
+                                    <MovieDetail
+                                        {...routerProps}
+                                        movieid={movieid}
+                                        uid={currentUser}
+                                    />
+                                );
+                            }}
+                        />
+                        <Route
                             path="/movies"
                             render={(props) => (
-                                <PopularMovies {...props} movieType="popular" />
+                                <PopularMovies
+                                    {...props}
+                                    movieType="popular"
+                                    uid={currentUser}
+                                />
                             )}
+                        />
+                        <Route
+                            path="/search/:query"
+                            render={(routerProps) => {
+                                const query = routerProps.match.params.query;
+
+                                return (
+                                    <Search
+                                        {...routerProps}
+                                        query={query}
+                                        uid={currentUser}
+                                    />
+                                );
+                            }}
                         />
                         <Route
                             path="/login"
@@ -277,6 +322,7 @@ function App() {
                                 />
                             )}
                         />
+
                         <Redirect
                             from="/"
                             exact

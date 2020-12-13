@@ -28,7 +28,6 @@ export const createSession = ({ username }) => {
         .catch(() => Promise.reject({ error: "network-error" }))
         .then((response) => {
             if (response.ok) {
-                console.log(response);
                 return response.json();
             }
             return response.json().then((err) => Promise.reject(err));
@@ -51,7 +50,6 @@ export const endSession = () => {
 //misc_latest: this.base + '/movie/latest?api_key=' + this.api_key
 // , misc_upcoming: this.base + '/movie/upcoming?page={0}&api_key=' + this.api_key
 export const getPopularMovies = (movieType) => {
-    console.log({ movieType });
     let url =
         "https://api.themoviedb.org/3/movie/" +
         movieType +
@@ -110,94 +108,103 @@ export const getAllGenres = () => {
         });
 };
 
-// export const getTopRated = () => {
-//     return fetch(
-//         "https://api.themoviedb.org/3/movie/top_rated?api_key=ea64de9bddd08b946b34a41ba227ce72&language=en-US&page=1",
-//         {
-//             method: "GET",
-//             headers: new Headers({
-//                 "content-type": "application/json",
-//             }),
-//         }
-//     )
-//         .then((response) => response.json())
-//         .then((response) => {
-//             console.log(response);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// };
-// export const getNowPlayingMovies = () => {
-//     return fetch(
-//         "https://api.themoviedb.org/3/movie/now_playing?api_key=ea64de9bddd08b946b34a41ba227ce72&language=en-US&page=1",
-//         {
-//             method: "GET",
-//             headers: new Headers({
-//                 "content-type": "application/json",
-//             }),
-//         }
-//     )
-//         .then((response) => response.json())
-//         .then((response) => {
-//             console.log(response);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// };
-// export const getUpcomingMovies = () => {
-//     return fetch(
-//         "https://api.themoviedb.org/3/movie/upcoming?api_key=ea64de9bddd08b946b34a41ba227ce72&language=en-US&page=1",
-//         {
-//             method: "GET",
-//             headers: new Headers({
-//                 "content-type": "application/json",
-//             }),
-//         }
-//     )
-//         .then((response) => response.json())
-//         .then((response) => {
-//             console.log(response);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// };
+export const getMovieDetails = (id) => {
+    let url =
+        "https://api.themoviedb.org/3/movie/" +
+        id +
+        "?api_key=ea64de9bddd08b946b34a41ba227ce72&language=en-US&page=1";
+    return fetch(url, {
+        method: "GET",
+        headers: new Headers({
+            "content-type": "application/json",
+        }),
+    })
+        .catch(() => Promise.reject({ error: "network-error" }))
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            return response.json().then((err) => Promise.reject(err));
+        });
+};
 
-// export const getActiveUsers = () => {
-//     return fetch("/users")
-//         .catch(() => Promise.reject({ error: "network-error" }))
-//         .then((response) => {
-//             if (response.ok) {
-//                 return response.json();
-//             }
-//             return response.json().then((err) => Promise.reject(err));
-//         });
-// };
+export const getUserWatchlist = (id) => {
+    return fetch(`/watchlist`, {
+        method: "GET",
+        headers: new Headers({
+            "content-type": "application/json",
+        }),
+        body: JSON.stringify(id),
+    })
+        .catch(() => {
+            return Promise.reject({
+                code: "network-error",
+            });
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            return response.json().then((err) => Promise.reject(err));
+        });
+};
 
-// export const getAllMessages = () => {
-//     return fetch("/messages")
-//         .catch(() => Promise.reject({ error: "network-error" }))
-//         .then((response) => {
-//             if (response.ok) {
-//                 return response.json();
-//             }
-//             return response.json().then((err) => Promise.reject(err));
-//         });
-// };
+export const addMovietoWatchList = (movieDetail, id) => {
+    return fetch(`/watchlist/${id}`, {
+        method: "POST",
+        body: JSON.stringify({
+            movieDetail: movieDetail,
+        }),
+        headers: new Headers({
+            "content-type": "application/json",
+        }),
+    })
+        .catch(() =>
+            Promise.reject({
+                error: "network-error",
+            })
+        )
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            return response.json().then((err) => Promise.reject(err));
+        });
+};
 
-// export const sendMessage = ({ userName, message }) => {
-//     return fetch("/message/" + userName, {
-//         method: "POST",
-//         headers: new Headers({ "content-type": "application/json" }),
-//         body: JSON.stringify({ message }),
-//     })
-//         .catch(() => Promise.reject({ error: "network-error" }))
-//         .then((response) => {
-//             if (response.ok) {
-//                 return Promise.resolve(response);
-//             }
-//             return response.json().then((err) => Promise.reject(err));
-//         });
-// };
+export const removeMovieFromWatchlist = (userId, movieId) => {
+    return fetch(`/watchlist/${userId}/${movieId}`, {
+        method: "DELETE",
+    })
+        .catch(() => {
+            return Promise.reject({
+                code: "network-error",
+            });
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            return response.json().then((err) => Promise.reject(err));
+        });
+};
+
+export const getSearchedMovie = (query) => {
+    let url =
+        "https://api.themoviedb.org/3/search/movie?api_key=ea64de9bddd08b946b34a41ba227ce72&language=en-US&query=" +
+        query +
+        "&page=1&include_adult=false";
+    return fetch(url, {
+        method: "GET",
+        headers: new Headers({
+            "content-type": "application/json",
+        }),
+    })
+        .catch(() => Promise.reject({ error: "network-error" }))
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            return response.json().then((err) => Promise.reject(err));
+        });
+};

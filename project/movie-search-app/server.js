@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = 5000;
 const session = require("./session");
+const watchlist = require("./watchlist");
 
 app.use(cookieParser());
 app.use(express.json());
@@ -41,60 +42,78 @@ app.post("/session", (req, res) => {
     }
     const sid = session.addUser(username);
     res.cookie("sid", sid);
-    res.status(200).json(session.users);
+    res.status(200).json(session.users[sid]);
 });
 
 // app.get("/recipe", (req, res) => {
 //   res.status(200).json(recipeStore.recipeList);
 // });
 
-// app.get("/recipe/:id", (req, res) => {
-//   const id = req.params.id;
-//   if (!recipeStore.recipeList[id]) {
-//     res.status(403).json({
-//       error: "Recipe does not exist",
-//     });
-//     return;
-//   }
-//   res.status(200).json(recipeStore.recipeList[id]);
-// });
+app.get("/watchlist", (req, res) => {
+    const id = req.body.id;
+    console.log("inside server");
+    console.log(id);
+    if (!watchlist.usersWatchlist[id]) {
+        res.status(403).json({
+            error: "You don't have movies in you Watchlist",
+        });
+        console.log("inside error");
+        return;
+    }
+    res.status(200).json(watchlist.usersWatchlist[id]);
+});
 
-// app.post("/recipe", express.json(), (req, res) => {
-//   const uid = req.cookies.uid;
-//   const title = req.body.title;
-//   const ingredients = req.body.ingredients;
-//   const instruction = req.body.instruction;
-//   const author = session.userList[uid].username;
-//   if (!uid) {
-//     res.status(401).json({ error: "login-required" });
-//     return;
-//   }
-//   if (!session.userList[uid]) {
-//     res.clearCookie("uid");
-//     res.status(403).json({
-//       error: "login-invalid",
-//     });
-//     return;
-//   }
-//   if (
-//     title.trim().length === 0 ||
-//     ingredients.trim().length === 0 ||
-//     instruction.trim().length === 0
-//   ) {
-//     res.status(400).json({
-//       error: "Please enter all the recipe details",
-//     });
-//     return;
-//   }
-//   const id = nextID();
-//   recipeStore.recipeList[id] = {
-//     title: title,
-//     author: author,
-//     ingredients: ingredients,
-//     instruction: instruction,
-//   };
-//   res.status(200).json(id);
-// });
+app.delete("/watchlist/:userId/:movieId", (req, res) => {
+    const sid = req.cookies.sid;
+    const userId = req.params.userId;
+    const movieId = req.params.movieId;
+    if (!sid || !session.users[sid]) {
+        res.status(401).json({
+            error: "login-required",
+        });
+        return;
+    }
+    if (!session.users[sid]) {
+        res.clearCookie("uid");
+        res.status(403).json({
+            error: "login-invalid",
+        });
+        return;
+    }
+
+    watchlist.removeMovie(movieId, userId);
+    res.status(200).json({
+        message: "movie removed",
+    });
+});
+
+app.post("/watchlist/:userId", express.json(), (req, res) => {
+    const userId = req.params.userId;
+    const movieId = req.params.movieId;
+    const movieDetail = req.body.movieDetail;
+    const sid = req.cookies.sid;
+    if (!sid || !session.users[sid]) {
+        res.status(401).json({
+            error: "login-required",
+        });
+        return;
+    }
+    if (!session.users[sid]) {
+        res.clearCookie("uid");
+        res.status(403).json({
+            error: "login-invalid",
+        });
+        return;
+    }
+    if (wishlist.wishlist[userId]) {
+        wishlist.wishlist[userId].movies.push(movieDetail);
+    } else {
+        wishlist.wishlist[userId] = {
+            movies: [movieDetail],
+        };
+    }
+    res.status(200).json(id);
+});
 
 app.delete("/session", (req, res) => {
     const sid = req.cookies.sid;

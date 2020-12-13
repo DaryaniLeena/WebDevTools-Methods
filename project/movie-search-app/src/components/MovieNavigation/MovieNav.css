@@ -15,6 +15,7 @@ a {
     font-size: larger;
 }
 
-li.navLink:active {
-    background-color: blue;
+.selected {
+    color: #28a745;
+    font-weight: bold;
 }

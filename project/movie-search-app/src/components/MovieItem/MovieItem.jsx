@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
+import WatchlistButton from "../WatchList/WatchlistButton";
 import "./MovieItem.css";
 import { getAllGenres } from "../../services/service";
 import { MOVIE_DB_IMAGE_URL } from "../../services/service";
 import { Link } from "react-router-dom";
+import noPhoto from "./noimage.png";
 
-const MovieItem = ({ props }) => {
-    console.log(props);
+const MovieItem = ({ props, uid, withWatchListButton }) => {
     const { title, vote_average, poster_path, id } = props.element;
-    const [message, setMessage] = useState("");
     const [genre, setGenre] = useState([]);
     let { genre_ids } = props.element;
 
@@ -27,13 +27,6 @@ const MovieItem = ({ props }) => {
             .join(", ");
     }
 
-    const x = ["q", "b", "c"];
-    const genre_name = x.map((item) => (
-        <div className="rating" key={item}>
-            {item}
-        </div>
-    ));
-
     // const history = useHistory();
     // genre_name = genre.map((department) => (
     //     <div key={department} className="dept-shape">
@@ -42,17 +35,33 @@ const MovieItem = ({ props }) => {
     // ));
 
     return (
-        <div className="cardStyle">
+        <div key={id} className="cardStyle">
             <Link to={`/movies/${id}`}>
                 <img
-                    src={MOVIE_DB_IMAGE_URL.medium + poster_path}
+                    className="imgHeight"
+                    src={
+                        poster_path
+                            ? MOVIE_DB_IMAGE_URL.medium + poster_path
+                            : noPhoto
+                    }
                     alt={title}
                 ></img>
             </Link>
-            <div class="movie-detail">
+            <div className="movie-detail">
                 <div className="title">{title}</div>
                 <div>{vote_average}</div>
                 <div>{genresStr}</div>
+                {withWatchListButton && (
+                    <WatchlistButton
+                        movieDetail={{
+                            title: title,
+                            vote_average: vote_average,
+                            poster_path: poster_path,
+                            id: id,
+                        }}
+                        uid={uid}
+                    />
+                )}
             </div>
         </div>
     );

@@ -1,21 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./MovieNav.css";
 
 const MovieNav = () => {
     return (
         <ul>
             <li>
-                <Link to="/">Popular</Link>
+                <NavLink activeClassName="selected" to="/movies">
+                    Popular
+                </NavLink>
             </li>
             <li>
-                <Link to="/topRatedMovie">Top Rated</Link>
+                <NavLink activeClassName="selected" to="/topRatedMovie">
+                    Top Rated
+                </NavLink>
             </li>
             <li>
-                <Link to="/nowPlayingMovie">Now Playing</Link>
+                <NavLink activeClassName="selected" to="/nowPlayingMovie">
+                    Now Playing
+                </NavLink>
             </li>
             <li>
-                <Link to="/upcomingMovie">Upcoming</Link>
+                <NavLink activeClassName="selected" to="/upcomingMovie">
+                    Upcoming
+                </NavLink>
             </li>
         </ul>
     );
