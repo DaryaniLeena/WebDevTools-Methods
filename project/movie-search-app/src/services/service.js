@@ -129,12 +129,11 @@ export const getMovieDetails = (id) => {
 };
 
 export const getUserWatchlist = (id) => {
-    return fetch(`/watchlist`, {
+    return fetch(`/watchlist/${id}`, {
         method: "GET",
         headers: new Headers({
             "content-type": "application/json",
         }),
-        body: JSON.stringify(id),
     })
         .catch(() => {
             return Promise.reject({

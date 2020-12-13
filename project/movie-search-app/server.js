@@ -49,18 +49,18 @@ app.post("/session", (req, res) => {
 //   res.status(200).json(recipeStore.recipeList);
 // });
 
-app.get("/watchlist", (req, res) => {
-    const id = req.body.id;
-    console.log("inside server");
-    console.log(id);
-    if (!watchlist.usersWatchlist[id]) {
+app.get("/watchlist/:userid", (req, res) => {
+    const userId = req.params.userid;
+
+    if (!watchlist.usersWatchlist[userId]) {
         res.status(403).json({
             error: "You don't have movies in you Watchlist",
         });
         console.log("inside error");
         return;
     }
-    res.status(200).json(watchlist.usersWatchlist[id]);
+    console.log(watchlist.usersWatchlist[userId]);
+    res.status(200).json(watchlist.usersWatchlist[userId]);
 });
 
 app.delete("/watchlist/:userId/:movieId", (req, res) => {
@@ -80,8 +80,15 @@ app.delete("/watchlist/:userId/:movieId", (req, res) => {
         });
         return;
     }
+    if (!watchlist.usersWatchlist[userId]) {
+        res.status(404).json({
+            error: "content-not-found",
+        });
+        return;
+    }
 
     watchlist.removeMovie(movieId, userId);
+    console.log(watchlist.usersWatchlist[userId].movies);
     res.status(200).json({
         message: "movie removed",
     });
@@ -89,7 +96,6 @@ app.delete("/watchlist/:userId/:movieId", (req, res) => {
 
 app.post("/watchlist/:userId", express.json(), (req, res) => {
     const userId = req.params.userId;
-    const movieId = req.params.movieId;
     const movieDetail = req.body.movieDetail;
     const sid = req.cookies.sid;
     if (!sid || !session.users[sid]) {
@@ -105,14 +111,9 @@ app.post("/watchlist/:userId", express.json(), (req, res) => {
         });
         return;
     }
-    if (wishlist.wishlist[userId]) {
-        wishlist.wishlist[userId].movies.push(movieDetail);
-    } else {
-        wishlist.wishlist[userId] = {
-            movies: [movieDetail],
-        };
-    }
-    res.status(200).json(id);
+    watchlist.addMovie(movieDetail, userId);
+    console.log(watchlist.usersWatchlist[userId]);
+    res.status(200).json({ message: "movie added" });
 });
 
 app.delete("/session", (req, res) => {

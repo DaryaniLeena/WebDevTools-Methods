@@ -3,3 +3,14 @@
     color: white;
     font-size: larger;
 }
+
+.watchlistButton {
+    height: 34px;
+    margin: 10px;
+}
+
+.movie-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    list-style-type: none;
+}

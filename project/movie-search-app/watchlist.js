@@ -8,18 +8,32 @@ let usersWatchlist = {
 };
 
 const removeMovie = (movieId, userid) => {
-    usersWatchlist[userid].movies = usersWatchlist[userid].movies.filter(
-        function (item) {
-            return item.id !== movieId;
-        }
+    // usersWatchlist[userid].movies = usersWatchlist[userid].movies.filter(
+    //     function (item) {
+    //         return item.id !== movieId;
+    //     }
+    // );
+    // console.log("from remove");
+    // console.log(usersWatchlist[userid].movies);
+
+    usersWatchlist[userid].movies.splice(
+        usersWatchlist[userid].movies.findIndex(function (item) {
+            return item.id === movieId;
+        }),
+        1
     );
 };
-const addMovie = (movieId, userid) => {
-    usersWatchlist[userid].movies = usersWatchlist[userid].movies.filter(
-        function (item) {
-            return item.id !== movieId;
-        }
-    );
+const addMovie = (movieDetail, userid) => {
+    if (usersWatchlist[userid]) {
+        usersWatchlist[userid].movies.push(movieDetail);
+    } else {
+        usersWatchlist[userid] = {
+            movies: [movieDetail],
+        };
+    }
+    console.log("add movie");
+    console.log(usersWatchlist[userid]);
+    console.log(".....");
 };
 
 module.exports = {

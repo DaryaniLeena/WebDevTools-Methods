@@ -14,7 +14,8 @@ const ViewWatchList = ({ props }) => {
         getUserWatchlist(id).then((data) => {
             if (data) {
                 savedList.current = data;
-                updatewatchlist(savedList.current);
+                console.log(savedList.current);
+                updatewatchlist(savedList.current.movies);
             } else {
                 setMessage("You dont have movies in your watchlist");
             }
@@ -34,7 +35,7 @@ const ViewWatchList = ({ props }) => {
     });
     return (
         <div>
-            <div className="Booking History: ">
+            <div className="movie-container">
                 {watchlist == "" ? (
                     <div className="error-mess">
                         <Error
