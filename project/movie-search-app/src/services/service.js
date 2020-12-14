@@ -47,9 +47,7 @@ export const endSession = () => {
         });
 };
 
-//misc_latest: this.base + '/movie/latest?api_key=' + this.api_key
-// , misc_upcoming: this.base + '/movie/upcoming?page={0}&api_key=' + this.api_key
-export const getPopularMovies = (movieType) => {
+export const getSelectedTypeMovies = (movieType) => {
     let url =
         "https://api.themoviedb.org/3/movie/" +
         movieType +
@@ -65,30 +63,14 @@ export const getPopularMovies = (movieType) => {
             if (response.ok) {
                 return response.json();
             }
-            return response.json().then((err) => Promise.reject(err));
+            return response
+                .json()
+                .then((err) =>
+                    Promise.reject({ error: "error-getting-movie" })
+                );
         });
 };
-// export const getSearchMovies = () => {
-//     let url =
-//         "https://api.themoviedb.org/3/movie/" +
-//         movieType +
-//         "?api_key=ea64de9bddd08b946b34a41ba227ce72&language=en-US&page=1";
-//     return fetch(url, {
-//         method: "GET",
-//         headers: new Headers({
-//             "content-type": "application/json",
-//         }),
-//     })
-//         .then((response) => response.json())
-//         .then((response) => {
-//             console.log(response);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// };
 
-// https://api.themoviedb.org/3/genre/movie/list?api_key=ea64de9bddd08b946b34a41ba227ce72&language=en-US
 export const getAllGenres = () => {
     let url =
         "https://api.themoviedb.org/3/genre/movie/list?api_key=ea64de9bddd08b946b34a41ba227ce72&language=en-US";
@@ -98,13 +80,12 @@ export const getAllGenres = () => {
             "content-type": "application/json",
         }),
     })
+        .catch(() => Promise.reject({ error: "network-error" }))
         .then((response) => {
             if (response.ok) {
                 return response.json();
             }
-        })
-        .catch((err) => {
-            console.log(err);
+            return response.json().then((err) => Promise.reject(err));
         });
 };
 

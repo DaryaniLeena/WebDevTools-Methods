@@ -4,7 +4,7 @@ import "./MovieNav.css";
 
 const MovieNav = () => {
     return (
-        <ul>
+        <ul class="navigation">
             <li>
                 <NavLink activeClassName="selected" to="/movies">
                     Popular

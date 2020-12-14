@@ -1,22 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { getMovieDetails } from "../../services/service";
-import WatchListButton from "../WatchList/WatchlistButton";
 import ButtonWatchList from "../WatchList/ButtonWatchList";
 import { MOVIE_DB_IMAGE_URL } from "../../services/service";
 import "./MovieDetail.css";
-import {
-    getUserWatchlist,
-    addMovietoWatchList,
-    removeMovieFromWatchlist,
-} from "../../services/service";
-// import MovieDetail from "./MovieDetail";
-// const wishlist = require("../../../watchlist");
 
 const MovieDetail = ({ movieid, uid }) => {
-    const [watchList, setWatchList] = useState([]);
-    console.log("movieid");
-    console.log(movieid);
+    const [movieDetail, setMovieDetail] = useState({});
+    const [error, setError] = useState("");
     const getDurationStr = (mins) => {
         let h = Math.floor(mins / 60);
         let m = mins % 60;
@@ -33,66 +24,22 @@ const MovieDetail = ({ movieid, uid }) => {
             date.getFullYear()
         );
     };
-
-    const [movieDetail, setMovieDetail] = useState({});
-
+    const budgetStr = movieDetail.budget;
+    const durationStr = getDurationStr(movieDetail.runtime);
     useEffect(() => {
         getMovieDetails(movieid)
             .then((data) => {
                 setMovieDetail(data);
+                setError("");
             })
-            .catch((err) => console.log("error in movie detail"));
+            .catch((err) => setError(err.status_message));
     }, []);
-    console.log(movieDetail);
-    const budgetStr = movieDetail.budget;
-    const durationStr = getDurationStr(movieDetail.runtime);
-    // let genresStr = "";
-    // if (genre_ids) {
-    //     genresStr = genre_ids
-    //         .map((id) => {
-    //             const item = genre.find((item) => item.id === id);
-    //             return item ? item.name : null;
-    //         })
-    //         .join(", ");
-    // }
-    // const addMovieToUserWishList = function () {
-    //     if (wishlist.wishlist[uid]) {
-    //         wishlist.wishlist[uid].movies.push(movieDetail);
-    //     } else {
-    //         wishlist.wishlist[uid] = {
-    //             movies: [movieDetail],
-    //         };
-    //         // userTodos[username] = { username, todos: [] };
-    //     }
-    // wishlist[uid].movies.push(movieDetail);
-
-    // console.log(wishlist);
-    // };
-
-    // const addMovieTowatchlist = () => {
-    //     getUserWatchlist(uid)
-    //         .then((obj) => {
-    //             setWatchList(obj.movies);
-    //         })
-    //         .catch((error) => {
-    //             console.log("error in getting watchlist");
-    //         });
-    // };
 
     if (!movieDetail || movieDetail.id !== Number(movieid)) {
         return <div>Loading....</div>;
     }
     return (
         <div className="movie-detail-container">
-            <div
-                className="cover-moviedetail"
-                style={{
-                    backgroundSize: "cover",
-                    backgroundImage: `linear-gradient(rgba(0,0,0,.5), rgba(0,0,0, .5)), url("${
-                        MOVIE_DB_IMAGE_URL.large + movieDetail.backdrop_path
-                    }")`,
-                }}
-            />
             <div className="detail-container">
                 <div className="movie-poster">
                     <img

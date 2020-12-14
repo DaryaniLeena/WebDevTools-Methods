@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
 import { Switch, Route, NavLink, Redirect } from "react-router-dom";
-import PopularMovies from "./components/Movies/PopularMovies";
+import SelectedTypeMovies from "./components/Movies/SelectedTypeMovies";
 import MovieNav from "./components/MovieNavigation/MovieNav";
 import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
@@ -11,23 +11,13 @@ import MovieDetail from "./components/MovieDetail/MovieDetail";
 import ViewWatchList from "./components/WatchList/ViewWatchlist";
 import Searchform from "./components/Search/Searchform";
 import Search from "./components/Search/Search";
+import ErrorMessages from "./components/Error/ErrorMessages";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState("");
     const [error, setError] = useState("");
-    const errMsgs = {
-        "network-error":
-            "Status: There was a problem connecting to the network, try again",
-        "bad-login": "Status: Bad-login: This value is not allowed",
-        "login-required": "Status: User must login",
-        "session-invalid":
-            "This user session is not valid. Please login again.",
-    };
-    let content = "";
-    const setErrorMethod = function (error) {
-        setError(error);
-    };
+
     const login = function ({ username, uid }) {
         setIsLoggedIn(true);
         setCurrentUser(uid);
@@ -38,42 +28,14 @@ function App() {
                 setIsLoggedIn(false);
                 setCurrentUser("");
             })
-            .catch((error) => {
-                console.log("errorinlogout");
+            .catch((err) => {
+                setError(ErrorMessages[err.error]);
             });
     };
 
     const makeStatusLoggedIn = function (loggedIn) {
         setIsLoggedIn(loggedIn);
-        console.log(isLoggedIn);
     };
-
-    // if (isLoggedIn) {
-    //     content = (
-    //         <nav>
-    //             <NavLink className="nav-tab" to="/wishlist">
-    //                 WishList
-    //             </NavLink>
-    //             <NavLink className="nav-tab" to="/movies">
-    //                 Movie
-    //             </NavLink>
-    //             <NavLink className="nav-tab" to="/logout">
-    //                 Logout
-    //             </NavLink>
-    //         </nav>
-    //     );
-    // } else {
-    //     content = (
-    //         <nav>
-    //             <NavLink className="nav-tab" to="/movies">
-    //                 Movie
-    //             </NavLink>
-    //             <NavLink className="nav-tab" to="/login">
-    //                 Login
-    //             </NavLink>
-    //         </nav>
-    //     );
-    // }
 
     if (isLoggedIn) {
         return (
@@ -93,7 +55,7 @@ function App() {
                     <span className="movieLogin">
                         <nav>
                             <NavLink className="nav-tab" to="/wishlist">
-                                WishList
+                                My Watchlist
                             </NavLink>
                             <NavLink className="nav-tab" to="/movies">
                                 Movie
@@ -112,7 +74,7 @@ function App() {
                         <Route
                             path="/topRatedMovie"
                             render={(props) => (
-                                <PopularMovies
+                                <SelectedTypeMovies
                                     {...props}
                                     movieType="top_rated"
                                     uid={currentUser}
@@ -122,7 +84,7 @@ function App() {
                         <Route
                             path="/nowPlayingMovie"
                             render={(props) => (
-                                <PopularMovies
+                                <SelectedTypeMovies
                                     {...props}
                                     movieType="now_playing"
                                     uid={currentUser}
@@ -132,7 +94,7 @@ function App() {
                         <Route
                             path="/upcomingMovie"
                             render={(props) => (
-                                <PopularMovies
+                                <SelectedTypeMovies
                                     {...props}
                                     movieType="upcoming"
                                     uid={currentUser}
@@ -157,7 +119,7 @@ function App() {
                         <Route
                             path="/movies"
                             render={(props) => (
-                                <PopularMovies
+                                <SelectedTypeMovies
                                     {...props}
                                     movieType="popular"
                                     uid={currentUser}
@@ -206,7 +168,7 @@ function App() {
                             from="/"
                             exact
                             to="/movies"
-                            component={PopularMovies}
+                            component={SelectedTypeMovies}
                         />
                         <Redirect to="/not-found" />
                     </Switch>
@@ -244,7 +206,7 @@ function App() {
                         <Route
                             path="/topRatedMovie"
                             render={(props) => (
-                                <PopularMovies
+                                <SelectedTypeMovies
                                     {...props}
                                     movieType="top_rated"
                                     uid={currentUser}
@@ -254,7 +216,7 @@ function App() {
                         <Route
                             path="/nowPlayingMovie"
                             render={(props) => (
-                                <PopularMovies
+                                <SelectedTypeMovies
                                     {...props}
                                     movieType="now_playing"
                                     uid={currentUser}
@@ -264,7 +226,7 @@ function App() {
                         <Route
                             path="/upcomingMovie"
                             render={(props) => (
-                                <PopularMovies
+                                <SelectedTypeMovies
                                     {...props}
                                     movieType="upcoming"
                                     uid={currentUser}
@@ -289,7 +251,7 @@ function App() {
                         <Route
                             path="/movies"
                             render={(props) => (
-                                <PopularMovies
+                                <SelectedTypeMovies
                                     {...props}
                                     movieType="popular"
                                     uid={currentUser}
@@ -322,12 +284,11 @@ function App() {
                                 />
                             )}
                         />
-
                         <Redirect
                             from="/"
                             exact
                             to="/movies"
-                            component={PopularMovies}
+                            component={SelectedTypeMovies}
                         />
                         <Redirect to="/not-found" />
                     </Switch>

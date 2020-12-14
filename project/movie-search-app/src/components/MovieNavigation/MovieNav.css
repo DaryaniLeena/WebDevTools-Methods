@@ -19,3 +19,7 @@ a {
     color: #28a745;
     font-weight: bold;
 }
+
+.navigation {
+    justify-content: center;
+}

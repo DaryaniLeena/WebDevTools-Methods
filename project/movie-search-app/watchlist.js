@@ -8,17 +8,9 @@ let usersWatchlist = {
 };
 
 const removeMovie = (movieId, userid) => {
-    // usersWatchlist[userid].movies = usersWatchlist[userid].movies.filter(
-    //     function (item) {
-    //         return item.id !== movieId;
-    //     }
-    // );
-    // console.log("from remove");
-    // console.log(usersWatchlist[userid].movies);
-
     usersWatchlist[userid].movies.splice(
         usersWatchlist[userid].movies.findIndex(function (item) {
-            return item.id === movieId;
+            return item.id === Number(movieId);
         }),
         1
     );
@@ -31,9 +23,6 @@ const addMovie = (movieDetail, userid) => {
             movies: [movieDetail],
         };
     }
-    console.log("add movie");
-    console.log(usersWatchlist[userid]);
-    console.log(".....");
 };
 
 module.exports = {

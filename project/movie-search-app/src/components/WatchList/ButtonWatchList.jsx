@@ -1,15 +1,9 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import {
-    getUserWatchlist,
-    addMovietoWatchList,
-    removeMovieFromWatchlist,
-} from "../../services/service";
+import { getUserWatchlist, addMovietoWatchList } from "../../services/service";
 const ButtonWatchList = function ({ movieDetail, uid }) {
     const [presentInwatchlist, setpresentInwatchlist] = useState(false);
     const [watchList, setWatchList] = useState([]);
-
-    const history = useHistory();
+    const [error, setError] = useState("");
 
     useEffect(() => {
         if (uid) {
@@ -25,53 +19,44 @@ const ButtonWatchList = function ({ movieDetail, uid }) {
                         setpresentInwatchlist(true);
                     }
                 })
-                .catch((error) => {
+                .catch((err) => {
                     setpresentInwatchlist(false);
-                    console.log("error in getting watchlist");
                 });
         }
     }, [movieDetail]);
 
     const addToWatchlist = () => {
-        addMovietoWatchList(movieDetail, uid)
-            .then((response) => {
-                setpresentInwatchlist(true);
-            })
-            .catch(function (err) {
-                console.log("error in adding movie to watchlist");
-            });
+        let index = watchList.findIndex(function (item) {
+            return item.id == movieDetail.id;
+        });
+        if (uid == "") {
+            setError("Please sign in to add movie to watchlist");
+        } else if (index > -1) {
+            setError("Movie already present in watchlist");
+        } else {
+            addMovietoWatchList(movieDetail, uid)
+                .then((response) => {
+                    setpresentInwatchlist(true);
+                    setError("");
+                })
+                .catch(function (err) {
+                    setError("error in adding movie to watchlist");
+                });
+        }
     };
 
-    const removeFromWatchlist = () => {
-        removeMovieFromWatchlist(uid, movieDetail.id)
-            .then((response) => {
-                setpresentInwatchlist(false);
-            })
-            .catch(function (err) {
-                console.log("error in removing movie to watchlist");
-            });
-    };
-
-    if (!presentInwatchlist) {
-        return (
+    return (
+        <div>
             <button
+                disabled={presentInwatchlist}
                 className="watchlistButton"
                 onClick={addToWatchlist}
                 id="watchlist-btn"
             >
                 Add To my watchlist
             </button>
-        );
-    } else {
-        return (
-            <button
-                className="watchlistButton"
-                onClick={removeFromWatchlist}
-                id="watchlist-btn"
-            >
-                Remove from my watchlist
-            </button>
-        );
-    }
+            <div className="watchlist-error">{error}</div>
+        </div>
+    );
 };
 export default ButtonWatchList;

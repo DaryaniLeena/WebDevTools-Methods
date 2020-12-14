@@ -16,13 +16,15 @@
     min-height: 125px;
     color: #dee2e6;
     position: relative;
-    text-align: center;
 }
 
 .titleDetail {
     width: 100%;
 }
-.title {
+.title-style {
+    float: left;
+    width: 85%;
+    margin: 10px 0;
 }
 .rating {
     display: inline-block;
@@ -32,4 +34,21 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     list-style-type: none;
+}
+.rating-style {
+    padding: 10px;
+    border: 2px solid #343a40;
+    width: 7%;
+    border-radius: 50%;
+    background-color: #212529;
+    color: #ffc107;
+    text-align: center;
+    float: right;
+}
+
+.remove-watchlist {
+    height: 34px;
+    margin: 10px;
+    margin-left: 100px;
+    font-size: medium;
 }

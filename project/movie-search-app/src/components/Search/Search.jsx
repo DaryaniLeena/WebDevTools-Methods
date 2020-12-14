@@ -4,17 +4,15 @@ import { getSearchedMovie } from "../../services/service";
 import MovieItem from "../MovieItem/MovieItem";
 
 const PopularMovies = ({ query, uid }) => {
-    const movie = useRef([]);
     const [MovieList, setMovieList] = useState([]);
-    const [popularMovie, setPopularMovie] = useState([]);
-    const [searchResults, setSearchResults] = useState([]);
+    const [error, setError] = useState("");
     useEffect(() => {
         getSearchedMovie(query)
             .then((data) => {
-                console.log(data.results);
                 setMovieData(data.results);
+                setError("");
             })
-            .catch((err) => console.log("error in search"));
+            .catch((err) => setError(err.status_message));
     }, [query]);
 
     const setMovieData = useCallback((obj) => {

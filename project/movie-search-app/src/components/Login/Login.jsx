@@ -3,10 +3,12 @@ import { createSession } from "../../services/service";
 import "./Login.css";
 import { checkSession } from "../../services/service";
 import { useHistory } from "react-router-dom";
+import ErrorMessages from "../Error/ErrorMessages";
 
 const Login = function ({ props }) {
     const [username, setUsername] = useState("");
     const [isDisabled, setIsDisabled] = useState(true);
+    const [error, setError] = useState("");
     const history = useHistory();
 
     const onChange = (e) => {
@@ -29,11 +31,11 @@ const Login = function ({ props }) {
                 const uid = userinfo.uid;
                 props.onLogin({ username, uid: userinfo.uid });
                 history.push(`/`);
-                // errorMsg("");
+                setError("");
             })
             .catch((err) => {
+                setError(ErrorMessages[err.error]);
                 console.log("error this side");
-                // errorMsg(err.error);
             });
     };
 
@@ -52,9 +54,10 @@ const Login = function ({ props }) {
                             ></input>
                         </label>
                     </div>
-                    <div class="login-button">
+                    <div className="error-message">{error}</div>
+                    <div className="login-button">
                         <button
-                            class="login"
+                            className="login"
                             onClick={login}
                             disabled={isDisabled}
                         >

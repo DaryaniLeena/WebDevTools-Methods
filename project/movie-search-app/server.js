@@ -45,21 +45,15 @@ app.post("/session", (req, res) => {
     res.status(200).json(session.users[sid]);
 });
 
-// app.get("/recipe", (req, res) => {
-//   res.status(200).json(recipeStore.recipeList);
-// });
-
 app.get("/watchlist/:userid", (req, res) => {
     const userId = req.params.userid;
 
     if (!watchlist.usersWatchlist[userId]) {
-        res.status(403).json({
-            error: "You don't have movies in you Watchlist",
+        res.status(404).json({
+            error: "content-not-found",
         });
-        console.log("inside error");
         return;
     }
-    console.log(watchlist.usersWatchlist[userId]);
     res.status(200).json(watchlist.usersWatchlist[userId]);
 });
 
@@ -88,7 +82,6 @@ app.delete("/watchlist/:userId/:movieId", (req, res) => {
     }
 
     watchlist.removeMovie(movieId, userId);
-    console.log(watchlist.usersWatchlist[userId].movies);
     res.status(200).json({
         message: "movie removed",
     });
@@ -112,7 +105,6 @@ app.post("/watchlist/:userId", express.json(), (req, res) => {
         return;
     }
     watchlist.addMovie(movieDetail, userId);
-    console.log(watchlist.usersWatchlist[userId]);
     res.status(200).json({ message: "movie added" });
 });
 

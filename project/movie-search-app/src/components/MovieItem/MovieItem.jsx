@@ -1,20 +1,34 @@
 import React, { useState, useEffect } from "react";
-import WatchlistButton from "../WatchList/WatchlistButton";
 import "./MovieItem.css";
 import { getAllGenres } from "../../services/service";
 import { MOVIE_DB_IMAGE_URL } from "../../services/service";
 import { Link } from "react-router-dom";
 import noPhoto from "./noimage.png";
+import {
+    getUserWatchlist,
+    removeMovieFromWatchlist,
+} from "../../services/service";
+import ErrorMessages from "../Error/ErrorMessages";
 
-const MovieItem = ({ props, uid, withWatchListButton }) => {
+const MovieItem = ({
+    props,
+    uid,
+    withWatchListButton,
+    watchlist,
+    updatewatchlist,
+}) => {
     const { title, vote_average, poster_path, id } = props.element;
     const [genre, setGenre] = useState([]);
+    const [error, setError] = useState("");
     let { genre_ids } = props.element;
 
     useEffect(() => {
-        getAllGenres().then((data) => {
-            setGenre(data.genres);
-        });
+        getAllGenres()
+            .then((data) => {
+                setGenre(data.genres);
+                setError("");
+            })
+            .catch((err) => setError(err.status_message));
     }, []);
 
     let genresStr = "";
@@ -27,12 +41,28 @@ const MovieItem = ({ props, uid, withWatchListButton }) => {
             .join(", ");
     }
 
-    // const history = useHistory();
-    // genre_name = genre.map((department) => (
-    //     <div key={department} className="dept-shape">
-    //         {department}
-    //     </div>
-    // ));
+    const cancelBooking = () => {
+        console.log(uid);
+        removeMovieFromWatchlist(uid, id)
+            .then((response) => {
+                setError("");
+            })
+            .catch(function (err) {
+                setError(ErrorMessages[err.error]);
+            });
+
+        getUserWatchlist(uid)
+            .then((obj) => {
+                if (obj) {
+                    watchlist.current = obj;
+                    updatewatchlist(watchlist.current.movies);
+                    setError("");
+                } else {
+                    setError("No data in watchlist");
+                }
+            })
+            .catch((err) => setError(err.error));
+    };
 
     return (
         <div key={id} className="cardStyle">
@@ -48,19 +78,16 @@ const MovieItem = ({ props, uid, withWatchListButton }) => {
                 ></img>
             </Link>
             <div className="movie-detail">
-                <div className="title">{title}</div>
-                <div>{vote_average}</div>
+                <div className="title-style">{title}</div>
+                <div className="rating-style"> {vote_average}</div>
                 <div>{genresStr}</div>
                 {withWatchListButton && (
-                    <WatchlistButton
-                        movieDetail={{
-                            title: title,
-                            vote_average: vote_average,
-                            poster_path: poster_path,
-                            id: id,
-                        }}
-                        uid={uid}
-                    />
+                    <button
+                        className="remove-watchlist"
+                        onClick={cancelBooking}
+                    >
+                        Remove
+                    </button>
                 )}
             </div>
         </div>

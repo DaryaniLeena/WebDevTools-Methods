@@ -1,4 +1,3 @@
-import "./Logout.css";
 import { useHistory } from "react-router-dom";
 
 function Logout({ props }) {
