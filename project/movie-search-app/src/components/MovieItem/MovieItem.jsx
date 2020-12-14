@@ -41,7 +41,7 @@ const MovieItem = ({
             .join(", ");
     }
 
-    const cancelBooking = () => {
+    const removeFromWatchlist = () => {
         console.log(uid);
         removeMovieFromWatchlist(uid, id)
             .then((response) => {
@@ -84,7 +84,7 @@ const MovieItem = ({
                 {withWatchListButton && (
                     <button
                         className="remove-watchlist"
-                        onClick={cancelBooking}
+                        onClick={removeFromWatchlist}
                     >
                         Remove
                     </button>

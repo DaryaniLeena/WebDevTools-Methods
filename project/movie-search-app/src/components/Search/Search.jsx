@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { getSearchedMovie } from "../../services/service";
 import MovieItem from "../MovieItem/MovieItem";
 
-const PopularMovies = ({ query, uid }) => {
+const Search = ({ query, uid }) => {
     const [MovieList, setMovieList] = useState([]);
     const [error, setError] = useState("");
     useEffect(() => {
@@ -25,4 +25,4 @@ const PopularMovies = ({ query, uid }) => {
 
     return <div className="movie-container">{MovieList}</div>;
 };
-export default PopularMovies;
+export default Search;

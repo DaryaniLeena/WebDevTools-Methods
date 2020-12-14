@@ -123,7 +123,7 @@ app.delete("/session", (req, res) => {
         });
         return;
     }
-    session.removeUser(sid);
+    // session.removeUser(sid);
     res.clearCookie("sid");
     res.status(200).json({
         message: "Logout success!",
