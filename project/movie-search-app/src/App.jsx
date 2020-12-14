@@ -12,7 +12,7 @@ import ViewWatchList from "./components/WatchList/ViewWatchlist";
 import Searchform from "./components/Search/Searchform";
 import Search from "./components/Search/Search";
 import ErrorMessages from "./components/Error/ErrorMessages";
-
+import Credits from "./components/Credits/Credits";
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState("");
@@ -46,14 +46,14 @@ function App() {
                             <img src={logo} className="logoStyle" alt="xyz" />
                         </span>
                         <span>
-                            <Searchform
-                                className="search-input"
-                                text_value="mamta"
-                            ></Searchform>
+                            <Searchform className="search-input"></Searchform>
                         </span>
                     </span>
                     <span className="movieLogin">
                         <nav>
+                            <NavLink className="nav-tab" to="/credits">
+                                Credits
+                            </NavLink>
                             <NavLink className="nav-tab" to="/wishlist">
                                 My Watchlist
                             </NavLink>
@@ -71,6 +71,7 @@ function App() {
                 </div>
                 <div>
                     <Switch>
+                        <Route path="/credits" component={Credits} />
                         <Route
                             path="/topRatedMovie"
                             render={(props) => (
@@ -189,6 +190,9 @@ function App() {
                     </span>
                     <span className="movieLogin">
                         <nav>
+                            <NavLink className="nav-tab" to="/credits">
+                                Credits
+                            </NavLink>
                             <NavLink className="nav-tab" to="/movies">
                                 Movie
                             </NavLink>
@@ -203,6 +207,7 @@ function App() {
                 </div>
                 <div>
                     <Switch>
+                        <Route path="/credits" component={Credits} />
                         <Route
                             path="/topRatedMovie"
                             render={(props) => (

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { getSearchedMovie } from "../../services/service";
 import MovieItem from "../MovieItem/MovieItem";
+import "./Search.css";
 
 const Search = ({ query, uid }) => {
     const [MovieList, setMovieList] = useState([]);
@@ -23,6 +24,11 @@ const Search = ({ query, uid }) => {
         );
     });
 
-    return <div className="movie-container">{MovieList}</div>;
+    return (
+        <div>
+            <div className="search-query">Search results "{query}"</div>
+            <div className="movie-container">{MovieList}</div>
+        </div>
+    );
 };
 export default Search;
