@@ -5,10 +5,19 @@ const app = express();
 const PORT = 5000;
 const session = require("./session");
 const watchlist = require("./watchlist");
+const cors = require("cors");
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("./build"));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
 const { v4: uuidv4 } = require("uuid");
 
 const counter = () => {
@@ -34,6 +43,11 @@ app.get("/session", (req, res) => {
 });
 
 app.post("/session", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
     const username = req.body.username;
     const validUser = session.checkUserName(username);
     if (!validUser) {
@@ -129,5 +143,4 @@ app.delete("/session", (req, res) => {
         message: "Logout success!",
     });
 });
-
 app.listen(PORT, () => console.log(`listening on http://localhost:${PORT}`));
